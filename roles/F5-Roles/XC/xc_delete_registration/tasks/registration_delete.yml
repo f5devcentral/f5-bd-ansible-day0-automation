@@ -1,0 +1,34 @@
+---
+
+  # - debug:
+  #     var: item
+  #   when: item.get_spec.passport.cluster_name == ova_builds_var.cluster_name
+  #   with_items: "{{ state.json['items'] }}"
+
+  - name: Find Name of Registration to Delete
+    ansible.builtin.set_fact: 
+      reg_var: "{{ item }}"
+    when: item.get_spec.passport.cluster_name == ova_builds_var.cluster_name
+    with_items: "{{ state.json['items'] }}"
+    # no_log: true
+
+  # - debug:
+  #     var: reg_var.name
+
+
+  - name: XC Delete Registration
+    ansible.builtin.uri:
+      url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/register/namespaces/system/registrations/{{ reg_var.name }}"
+      method: POST
+      body: "{{ lookup('template','registration_delete.j2', split_lines=False) }}"
+      status_code: 200
+      timeout: 300
+      body_format: json
+      headers:
+        Authorization: "APIToken {{xc_api_credential}}"
+      validate_certs: false
+    delegate_to: localhost
+    register: test_var
+
+  # - debug:
+  #     var: test_var

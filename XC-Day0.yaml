@@ -1,0 +1,15 @@
+---
+#This Code is for 16.1 and above as the build contains a fix for guest customization to work correctly.
+
+#Deploy OVA
+- hosts: vCenter
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
+    - roles/F5-Roles/XC/xc_create_token
+    - roles/vSphere-Roles/create_resource_pool
+    - roles/vSphere-Roles/XC/deploy_xc_ova
+    - roles/F5-Roles/XC/xc_get_registration_state
+    - roles/F5-Roles/XC/xc_accept_registration
+    - roles/General-Roles/date_time

@@ -1,0 +1,119 @@
+{
+  "f5_user": "admin",
+  "f5_pass": "Ansible123!",
+  "f5_admin_port": 443,
+  "BIQ_IP": "192.168.101.195",
+  "BIQ_PoolName": "F5-Test",
+  "BIQ_Pass": "SuperSecretPass123!",
+  "BIQ_User": "admin",
+  "vcenter_hostname": "{{ ansible_host }}",
+  "vcenter_username": "{{ ansible_env.ANSIBLE_NET_USERNAME }}",  #This variable is utilizing the Username via applied Credentials for vSphere
+  "vcenter_password": "{{ ansible_env.ANSIBLE_NET_PASSWORD }}",  #This variable is utilizing the Username via applied Credentials for vSphere
+  "vcenter_validate_certs": false,
+  "datacenter_name": "My-Datacenter", #Fill out for specific environment or could be a Survey
+  "cluster_name": "My-Cluster", #Fill out for specific environment or could be a Survey
+  "datastore": "My-Storage", #Fill out for specific environment or could be a Survey
+  "dvs_switch_name": "My-Distributed-Switch", #Fill out for specific environment or could be a Survey 
+  "f5_modules": [
+    "APM",
+    "LTM",
+    "GTM"
+  ],
+  "dns_name_servers": [
+    "192.168.0.1",
+    "8.8.8.8"
+  ],
+  "dns_name_search": [
+    "mydomain.local",
+    "localdomain"
+  ],
+  "ntp_servers": [
+    "0.pool.ntp.org",
+    "1.pool.ntp.org",
+    "2.pool.ntp.org"
+  ],
+  "domain_fqdn": "mydomain.local",
+  "self_internal_sn": "192.168.100.0/22",   #Utilizes Network for Internal Self IPs
+  "self_external_sn": "172.16.1.0/24",      #Utilizes Network for External Self IPs
+  "self_ha_sn": "197.197.197.0/24",         #Utilizes Network for HA Self IP
+  "float_num": "9",                         #Floating IP at the end of the block for creating a floating IP 
+  "route_gateway": "172.16.1.1",
+  "DVS_Name": "{{dvs_switch_name}}",
+  "Management_Network": "DVS-Network-vLan",
+  "Internal_Network": "DVS-Server-vLan",
+  "External_Network": "DVS-DMZ-vLan",
+  "HA_Network": "DVS-HA-vLan",
+  "vm_count": 3,
+  "vm_hostname": "Lab-BIP-",
+  "resource_pool_name": "Lab-BIP",
+  "is_linked_clone": true,                  #Utilizes Linked Clones for testing but can be false and then will deploy full clones.
+  "waiting_period": 2,
+  "f5_snapshot_name": "Snap",
+  "f5_snapshot_desc": "Linked Clone Snap",
+  "f5_ova_builds": [
+    {
+      "location": "//MyNAS/vSphere/OVAs/F5/17.x/BIGIP-17.1.1-0.0.6.ALL-vmware.ova",   #Mounted storage on the Ansible node for pulling the OVA (mounted CIFS/SAMBA Share)
+      "option": "quadcpu",                                                            #Sets Deployment mode via the OVA
+      "build_count": 2,                                                               #How many VEs to build within the cluster (Never tested beyond 2 nodes) 
+      "tmpl_name": "BIGIP-17.1.1-Lab",                                                #Template name in vSphere
+      "mgmt_ip_block": "10.192.1.190",                                                #Management IP Address/Subnet/GW - THIS ADDRESSES 4th OCTECT Determines the SELF IPs for Internal/Extneral/HA Selfs (i.e. 190, 191 would be the addresses used.)
+      "mgmt_ip_subnet_prefix": "24",
+      "mgmt_gw": "10.192.1.1"
+    }
+  ],
+  "do_uri": "https://api.github.com/repos/F5Networks/f5-declarative-onboarding/releases/latest",
+  "as3_uri": "https://api.github.com/repos/F5Networks/f5-appsvcs-extension/releases/latest",
+  "tenant_info": [
+    {
+      "tenant_name": "BIGIP-15.1.2",
+      "name": "T1-JuiceShop",
+      "ip": "196.196.196.120",
+      "port": "443",
+      "pool_members": [
+        "199.199.199.157",
+        "199.199.199.13"
+      ],
+      "service_ports": [
+        3000,
+        3001,
+        3002,
+        3003,
+        3004
+      ]
+    },
+    {
+      "tenant_name": "BIGIP-16.1.0",
+      "name": "T2-JuiceShop",
+      "ip": "196.196.196.130",
+      "port": "443",
+      "pool_members": [
+        "199.199.199.157",
+        "199.199.199.13"
+      ],
+      "service_ports": [
+        3000,
+        3001,
+        3002,
+        3003,
+        3004
+      ]
+    },
+    {
+      "tenant_name": "BIGIP-17.1.0",
+      "name": "T3-JuiceShop",
+      "ip": "172.16.192.120",
+      "port": "443",
+      "pool_members": [
+        "199.199.199.157",
+        "199.199.199.13"
+      ],
+      "service_ports": [
+        3000,
+        3001,
+        3002,
+        3003,
+        3004
+      ]
+    }
+  ]
+}

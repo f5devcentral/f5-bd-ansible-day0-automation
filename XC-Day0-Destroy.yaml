@@ -1,0 +1,11 @@
+---
+
+#Destroy XC Environment
+- hosts: vCenter
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
+    - roles/vSphere-Roles/XC/destroy_xc_vms
+    - roles/vSphere-Roles/destroy_resource_pool
+    - roles/General-Roles/date_time

@@ -1,0 +1,12 @@
+---
+  - name: Powering Off (Forced) F5 VMs (Clones)
+    vmware_guest:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      validate_certs: False
+      name: "{{ ova_builds_var.tmpl_name }}"
+      state: poweredoff
+      force: yes
+    delegate_to: localhost
+    ignore_errors: true

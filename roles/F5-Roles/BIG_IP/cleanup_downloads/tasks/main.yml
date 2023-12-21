@@ -1,0 +1,13 @@
+---
+# tasks install Declaritive Onboarding Latest
+
+  - name: Remove file (delete file)
+    ansible.builtin.file:
+      path: "~/{{as3_rpm}}"
+      state: absent
+
+
+  - name: Remove file (delete file)
+    ansible.builtin.file:
+      path: "~/{{do_rpm}}"
+      state: absent

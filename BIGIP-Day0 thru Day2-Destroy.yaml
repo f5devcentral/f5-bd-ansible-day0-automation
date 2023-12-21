@@ -1,0 +1,23 @@
+---
+# Get F5 VMs
+- hosts: vCenter
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/vSphere-Roles/BIG_IP/destroy_dyn_group_f5_vms
+
+# # Unlicense F5 VMs
+- hosts: dynamic_f5_vms
+  connection: local
+  gather_facts: false
+  roles:
+    - roles/F5-Roles/BIG_IQ/bigiq_unlicense
+
+# Destroy F5 VMs
+- hosts: vCenter
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/vSphere-Roles/BIG_IP/destroy_f5_vms
+    - roles/vSphere-Roles/BIG_IP/destroy_f5_master_vms
+    - roles/vSphere-Roles/destroy_resource_pool

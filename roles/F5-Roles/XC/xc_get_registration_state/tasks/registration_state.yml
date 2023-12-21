@@ -1,0 +1,44 @@
+---
+
+  - name: Check XC Registration status
+    block:   
+    - name: XC Get Registration State
+      ansible.builtin.uri:
+        url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/register/namespaces/system/registrations_by_site/{{ova_builds_var.cluster_name}}"
+        method: GET
+        status_code: 200
+        timeout: 300
+        body_format: json
+        headers:
+          Authorization: "APIToken {{xc_api_credential}}"
+        validate_certs: false
+      delegate_to: localhost
+      register: state
+      until: state.json['items'] | json_query('[*].get_spec.passport.cluster_name') | join(', ') | regex_search( ova_builds_var.cluster_name ) and state.json['items']|length == ova_builds_var.build_count
+      # no_log: true
+      retries: 20
+      delay: 30
+
+    - debug:
+        msg: "Size is {{ state.json['items']|length }}" 
+
+    - debug:
+        var: state
+
+    - name: Output Final Token
+      debug:
+        msg: "Registration in Pending State Found for XC cluster - {{ state.json['items'] | json_query('[*].get_spec.passport.cluster_name') | join(', ') | regex_search('xc-test-cluster') }}"
+      delegate_to: localhost
+
+    rescue:
+      - name: Output Final Token
+        debug:
+          msg: "Registration in Pending State Did not find matching XC cluster"
+        delegate_to: localhost
+
+#  - name: Output Final Token
+#    debug:
+#      var: state.json['items'] | json_query('[*].get_spec.passport.cluster_name') | join(', ') | regex_search('xc-test-cluster')
+#    delegate_to: localhost
+
+#[*].get_spec.passport.cluster_name

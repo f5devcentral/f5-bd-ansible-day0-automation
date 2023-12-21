@@ -1,0 +1,26 @@
+---
+# tasks file for Create-VM
+
+ - name: Provision VM from Template 
+   include_tasks: deploy_xc_ova.yml
+   with_items: "{{xc_ova_builds}}"
+   loop_control:
+     loop_var: ova_builds_var
+
+ - name: Add Guest Customization (IP/GW/Passwords) 
+   include_tasks: guest_cust.yml
+   with_items: "{{xc_ova_builds}}"
+   loop_control:
+     loop_var: ova_builds_var
+
+ - name: Power ON VMs
+   include_tasks: power_on.yml
+   with_items: "{{xc_ova_builds}}"
+   loop_control:
+     loop_var: ova_builds_var
+
+ - name: Wait on VM Tools
+   include_tasks: vmware_tools_wait.yml
+   with_items: "{{xc_ova_builds}}"
+   loop_control:
+     loop_var: ova_builds_var

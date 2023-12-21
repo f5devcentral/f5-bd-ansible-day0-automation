@@ -1,0 +1,5 @@
+---
+  
+- name: Pause 20 Seconds
+  pause:
+    seconds: 20

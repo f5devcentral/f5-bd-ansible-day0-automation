@@ -1,0 +1,31 @@
+---
+
+ - name: XC Delete Token
+   ansible.builtin.uri:
+     url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/register/namespaces/system/tokens/{{xc_namespace}}-token"
+     method: DELETE
+     body: "{{ lookup('template','delete_token.j2', split_lines=False) }}"
+     status_code: 200, 409
+     timeout: 300
+     body_format: json
+     headers:
+       Authorization: "APIToken {{xc_api_credential}}"
+     validate_certs: false
+   delegate_to: localhost
+   no_log: true
+
+ - name: Validate if Token Exists
+   ansible.builtin.uri:
+     url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/register/namespaces/system/tokens/{{xc_namespace}}-token"
+     method: GET
+     status_code: 200, 404
+     timeout: 300
+     body_format: json
+     headers:
+       Authorization: "APIToken {{xc_api_credential}}"
+     validate_certs: false
+   delegate_to: localhost
+   register: existing_token
+   when: xc_token is undefined
+   no_log: true
+

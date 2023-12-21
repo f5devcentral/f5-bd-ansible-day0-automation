@@ -1,0 +1,7 @@
+---
+
+  - name: Set Variables for F5 Access
+    set_fact: 
+      f5_admin_port: "{{ f5_vpc_instance_port }}"
+      f5_user: "{{ f5_vpc_user }}"
+      f5_pass: "{{ f5_vpc_pass }}"

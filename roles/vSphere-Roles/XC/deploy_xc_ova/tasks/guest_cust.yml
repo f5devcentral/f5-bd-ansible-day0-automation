@@ -1,0 +1,59 @@
+---
+  - name: MGMT IP Block Split
+    set_fact: 
+      #internal_ip_subnet: "{{ova_builds_var.external_ip.split('.')[0]}}.{{ova_builds_var.external_ip.split('.')[1]}}.{{ova_builds_var.external_ip.split('.')[2]}}"
+      external_ip_subnet: "{{ova_builds_var.external_ip.split('.')[0]}}.{{ova_builds_var.external_ip.split('.')[1]}}.{{ova_builds_var.external_ip.split('.')[2]}}"
+      external_ip_last_octet: "{{ova_builds_var.external_ip.split('.')[3]}}"
+
+
+  - name: Manipulate vApp properties
+    community.vmware.vmware_guest:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      validate_certs: no
+      name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
+      state: present
+      vapp_properties:
+        - id: guestinfo.ves.certifiedhardware
+          type: string
+          value: "{{ ova_builds_var.certified_hw }}"
+        - id: guestinfo.interface.0.ip.0.address
+          type: string
+          value: "{{ external_ip_subnet }}.{{ external_ip_last_octet |int + item |int }}/{{ ova_builds_var.external_ip_subnet_prefix }}"
+        - id: guestinfo.dns.server.0
+          type: string
+          value: "{{ dns_name_servers[0] }}"
+        - id: guestinfo.dns.server.1
+          type: string
+          value: "{{ dns_name_servers[1] }}"
+        - id: guestinfo.interface.0.route.0.destination
+          type: string
+          value: "{{ ova_builds_var.external_ip_route }}"
+        - id: guestinfo.interface.0.dhcp
+          type: string
+          value: "{{ ova_builds_var.dhcp }}"
+        - id: guestinfo.hostname
+          type: string
+          value: "{{ ova_builds_var.hostname }}-{{ item }}"
+        - id: guestinfo.ves.adminpassword
+          type: password
+          value: "{{ xc_pass }}"
+        - id: guestinfo.ves.clustername
+          type: string
+          value: "{{ ova_builds_var.cluster_name }}"
+        - id: guestinfo.ves.latitude
+          type: string
+          value: "{{ ova_builds_var.latitude }}"
+        - id: guestinfo.ves.longitude
+          type: string
+          value: "{{ ova_builds_var.longitude }}"
+        - id: guestinfo.interface.0.route.0.gateway
+          type: string
+          value: "{{ ova_builds_var.external_ip_gw }}"
+        - id: guestinfo.ves.token
+          type: string
+          value: "{{ token }}"
+    delegate_to: localhost
+    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
+

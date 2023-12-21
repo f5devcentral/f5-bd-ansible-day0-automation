@@ -1,0 +1,57 @@
+{
+  "centos_location": "https://vesio.blob.core.windows.net/releases/images/2023-11-22/centos-7.2009.45-202311221420.ova",
+  "xc_api_credential": "MYAPICREDS",  #To utilize this code the API Credentials will need to be an overall administrator of the XC Instance (Needs System access to be able to register and approve XC Instances), will also be able to query created site tokens
+  "xc_namespace": "mmabis-automation",
+  "xc_console_host": "f5-bd",         #XC Tenant Name https://f5-bd.console.ves.volterra.io/ is our example f5-bd is the front end of the name
+  "xc_user": "admin",                 #XC Deployed CE Instance Username 
+  "xc_pass": "SuperSecretPass123!",   #XC Deployed CE Instance Password
+  "vcenter_hostname": "{{ ansible_host }}",
+  "vcenter_username": "{{ ansible_env.ANSIBLE_NET_USERNAME }}",  #This variable is utilizing the Username via applied Credentials for vSphere
+  "vcenter_password": "{{ ansible_env.ANSIBLE_NET_PASSWORD }}",  #This variable is utilizing the Username via applied Credentials for vSphere
+  "vcenter_validate_certs": false,
+  "datacenter_name": "My-Datacenter", #Fill out for specific environment or could be a Survey
+  "cluster_name": "My-Cluster", #Fill out for specific environment or could be a Survey
+  "datastore": "My-Storage", #Fill out for specific environment or could be a Survey
+  "dvs_switch_name": "My-Distributed-Switch", #Fill out for specific environment or could be a Survey 
+  "dns_name_servers": [
+    "192.168.0.1",
+    "8.8.4.4"
+  ],
+  "dns_name_search": [
+    "my_domain.local",
+    "localdomain"
+  ],
+  "ntp_servers": [
+    "0.pool.ntp.org",
+    "1.pool.ntp.org",
+    "2.pool.ntp.org"
+  ],
+  "domain_fqdn": "my_domain.local",
+  "DVS_Name": "{{dvs_switch_name}}",
+  "Internal_Network": "DVS-Server-vLan",      #Network Portgroups for Internal Network attachment to OVA
+  "External_Network": "DVS-DMZ-vLan",         #Network Portgroups for External Network attachment to OVA
+  "resource_pool_name": "Lab-XC",             #Creates Resource Pool for Lab
+  "waiting_period": 2,
+  "temp_download_location": "/tmp/xc-ova-download.ova",    #Location where Execution Environment stores downloaded OVA Image
+  "xc_ova_builds": [
+    {
+      "hostname": "xc-automation",
+      "tmpl_name": "xc-automation-test",
+      "admin_password": "SuperSecretPass123!",
+      "cluster_name": "xc-automation-cluster",
+      "dhcp": "no",
+      "external_ip": "172.16.1.170",
+      "external_ip_subnet_prefix": "24",
+      "external_ip_gw": "172.16.1.1",
+      "external_ip_route": "0.0.0.0/0",
+      "internal_ip": "192.168.100.170",
+      "internal_ip_subnet_prefix": "22",
+      "internal_ip_gw": "192.168.100.1",
+      "certified_hw": "vmware-regular-nic-voltmesh",
+      "latitude": "39.51833126",
+      "longitude": "-104.759496962",
+      "build_count": 3,
+      "nic_config": "centos"
+    }
+  ]
+}

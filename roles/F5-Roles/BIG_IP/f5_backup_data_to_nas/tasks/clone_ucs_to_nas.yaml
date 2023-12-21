@@ -1,0 +1,26 @@
+---
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ smb_local_share }}"
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+
+# - name: Mount ephemeral SMB volume
+#   ansible.posix.mount:
+#     src: "{{ smb_remote_share_mount }}"
+#     path: "{{ smb_local_share }}"
+#     opts: "rw,vers=3,file_mode=0600,dir_mode=0700,dom={{ smb_domain }},username={{ smb_username }},password={{ smb_password }}"
+#     fstype: cifs
+#     state: ephemeral
+#   delegate_to: localhost
+
+- name: Copy UCS to NFS
+  ansible.builtin.copy:
+    src: "{{local_folder_location}}/{{inventory_hostname}}-{{cur_date}}-{{cur_time}}.ucs"
+    dest: "{{ smb_local_share }}"
+    # owner: root
+    # group: root 
+    # mode: '0644'
+  delegate_to: localhost

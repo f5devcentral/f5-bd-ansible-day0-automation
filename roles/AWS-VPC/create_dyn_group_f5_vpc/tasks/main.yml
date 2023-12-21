@@ -1,0 +1,25 @@
+---
+  - name: EC2 - Instance Info
+    amazon.aws.ec2_instance_info: 
+      region: "{{ f5_vpc_region }}"
+      filters:
+        "tag:Name": "{{ f5_vpc_instance_name }}"
+    register: ec2_instance
+
+  - debug:
+      var: ec2_instance.instances[0].public_ip_address
+
+  - name: Add EC2 Instance to dynamic group
+    add_host:
+      hostname="{{ f5_vpc_instance_name }}"
+      ansible_host="{{ ec2_instance.instances[0].public_ip_address }}"
+      ansible_user="{{ f5_vpc_user }}"
+      ansible_password="{{ f5_vpc_pass }}"
+      private_ip="{{ ec2_instance.instances[0].private_ip_address }}"
+      groups=dynamic_aws_f5
+
+  - name: Set Variables for F5 Access
+    set_fact: 
+      f5_admin_port: "{{ f5_vpc_instance_port }}"
+      f5_user: "{{ f5_vpc_user }}"
+      f5_pass: "{{ f5_vpc_pass }}"

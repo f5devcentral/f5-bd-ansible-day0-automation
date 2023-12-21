@@ -1,0 +1,8 @@
+---
+# tasks file for ASM-Role
+
+ - name: Backup F5 Configuration
+   include: get_ssl_profile_info.yaml
+   tags: 
+     - backup
+

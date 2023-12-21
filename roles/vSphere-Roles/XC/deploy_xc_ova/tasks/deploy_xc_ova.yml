@@ -1,0 +1,102 @@
+---
+  - name: Centos Download OVA Latest to Container
+    ansible.builtin.get_url:
+      url: "{{ centos_location }}"
+      dest: "{{ temp_download_location }}"
+      mode: 0777 
+      #validate_certs: false
+    delegate_to: localhost
+    when: ova_builds_var.nic_config|lower == "centos"
+
+  - name: Single Download OVA Latest to Container
+    ansible.builtin.get_url:
+      url: "{{ single_location }}"
+      dest: "{{ temp_download_location }}"
+      mode: 0777 
+      #validate_certs: false
+    delegate_to: localhost
+    when: ova_builds_var.nic_config|lower == "single"
+
+  - name: Multi Download OVA Latest to Container
+    ansible.builtin.get_url:
+      url: "{{ multi_location }}"
+      dest: "{{ temp_download_location }}"
+      mode: 0777 
+      #validate_certs: false
+    delegate_to: localhost
+    when: ova_builds_var.nic_config|lower == "multi"
+
+  - name: Deploy OVA
+    community.vmware.vmware_deploy_ovf:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      datacenter: "{{ datacenter_name }}"
+      cluster: "{{ cluster_name }}"
+      datastore: "{{ datastore }}"
+      resource_pool: "{{resource_pool_name}}"
+      validate_certs: no
+      name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
+      networks: "{u'OUTSIDE':u'{{ External_Network }}', u'INSIDE':u'{{ Internal_Network }}' }"
+      power_on: no
+      ovf: "{{ temp_download_location }}"
+      wait_for_ip_address: yes
+    delegate_to: localhost
+    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
+    when: ova_builds_var.nic_config|lower == "centos"
+
+  - name: Deploy OVA
+    community.vmware.vmware_deploy_ovf:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      datacenter: "{{ datacenter_name }}"
+      cluster: "{{ cluster_name }}"
+      datastore: "{{ datastore }}"
+      resource_pool: "{{resource_pool_name}}"
+      validate_certs: no
+      name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
+      networks: "{u'OUTSIDE':u'{{ External_Network }}'}"
+      power_on: no
+      ovf: "{{ temp_download_location }}"
+      wait_for_ip_address: yes
+    delegate_to: localhost
+    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
+    when: ova_builds_var.nic_config|lower == "single"
+
+  - name: Deploy OVA
+    community.vmware.vmware_deploy_ovf:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      datacenter: "{{ datacenter_name }}"
+      cluster: "{{ cluster_name }}"
+      datastore: "{{ datastore }}"
+      resource_pool: "{{resource_pool_name}}"
+      validate_certs: no
+      name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
+      networks: "{u'VM Network':u'{{ External_Network }}'}"
+      power_on: no
+      ovf: "{{ temp_download_location }}"
+      wait_for_ip_address: yes
+    delegate_to: localhost
+    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
+    when: ova_builds_var.nic_config|lower == "multi"
+
+  - name: Change Networks (BIG-IP)
+    vmware_guest:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      datacenter: "{{ datacenter_name }}"
+      #folder: /{{ datacenter_name }}/vm
+      cluster: "{{ cluster_name }}"
+      resource_pool: "{{ resource_pool_name }}"
+      validate_certs: False
+      name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
+      networks:
+      - name: "{{ External_Network }}"
+      - name: "{{ Internal_Network }}"
+    delegate_to: localhost
+    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
+    when: ova_builds_var.nic_config|lower == "multi"

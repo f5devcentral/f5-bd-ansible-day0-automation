@@ -1,0 +1,8 @@
+---
+
+ - name: Accept Pending Registration State
+   include_tasks: registration_delete.yml
+   with_items: "{{xc_ova_builds}}"
+   loop_control:
+     loop_var: ova_builds_var
+   no_log: true

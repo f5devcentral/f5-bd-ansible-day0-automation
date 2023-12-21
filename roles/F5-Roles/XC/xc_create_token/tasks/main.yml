@@ -1,0 +1,55 @@
+---
+ - name: Validate if Token Exists
+   ansible.builtin.uri:
+     url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/register/namespaces/system/tokens/{{xc_namespace}}-token"
+     method: GET
+     status_code: 200, 404
+     timeout: 300
+     body_format: json
+     headers:
+       Authorization: "APIToken {{xc_api_credential}}"
+     validate_certs: false
+   delegate_to: localhost
+   register: existing_token
+   when: xc_token is undefined
+   no_log: true
+
+ - name: Setting Token from XC Existing Token
+   ansible.builtin.set_fact:
+     token: "{{ existing_token.json.object.metadata.uid }}"
+   when: xc_token is undefined and existing_token.status != 404 
+   delegate_to: localhost
+
+ - name: XC Create Token
+   ansible.builtin.uri:
+     url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/register/namespaces/system/tokens"
+     method: POST
+     body: "{{ lookup('template','create_token.j2', split_lines=False) }}"
+     status_code: 200, 409
+     timeout: 300
+     body_format: json
+     headers:
+       Authorization: "APIToken {{xc_api_credential}}"
+     validate_certs: false
+   delegate_to: localhost
+   register: created_token
+   when: xc_token is undefined and existing_token.status != 200
+   no_log: true
+
+ - name: Setting Token from XC Created Token
+   ansible.builtin.set_fact:
+     token: "{{ created_token.json.system_metadata.uid }}"
+   when: xc_token is undefined and existing_token.status != 200
+   delegate_to: localhost
+
+ - name: Setting Token from XC Predefined Token
+   ansible.builtin.set_fact:
+     token: "{{ xc_token }}"
+   when: xc_token is defined
+   delegate_to: localhost
+
+ - name: Output Final Token
+   debug:
+     var: token
+   delegate_to: localhost
+
