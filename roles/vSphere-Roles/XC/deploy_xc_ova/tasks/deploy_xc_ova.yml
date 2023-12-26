@@ -10,7 +10,7 @@
 
   - name: RHEL Download OVA Latest to Container
     ansible.builtin.get_url:
-      url: "{{ single_location }}"
+      url: "{{ rhel_location }}"
       dest: "{{ temp_download_location }}"
       mode: 0777 
       #validate_certs: false
