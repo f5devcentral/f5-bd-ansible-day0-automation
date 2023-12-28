@@ -63,6 +63,7 @@
       datacenter: "{{ datacenter_name }}"
       name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
       network_name: "{{ Internal_Network }}"
+      validate_certs: no
     delegate_to: localhost
     with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
     when: ova_builds_var.nic_config|lower == "rhel-multi" 
