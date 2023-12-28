@@ -15,7 +15,7 @@
       mode: 0777 
       #validate_certs: false
     delegate_to: localhost
-    when: ova_builds_var.nic_config|lower == "rhel"
+    when: ova_builds_var.nic_config|lower == "rhel" or ova_builds_var.nic_config|lower == "rhel-multi"
 
   - name: Deploy Centos OVA
     community.vmware.vmware_deploy_ovf:
@@ -53,7 +53,20 @@
       wait_for_ip_address: yes
     delegate_to: localhost
     with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
-    when: ova_builds_var.nic_config|lower == "rhel"
+    when: ova_builds_var.nic_config|lower == "rhel" or ova_builds_var.nic_config|lower == "rhel-multi"
+
+  - name: Add Secondary NIC to RHEL image for Multi-Nic Configuration
+    community.vmware.vmware_guest_network:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      datacenter: "{{ datacenter_name }}"
+      name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
+      network_name: "{{ Internal_Network }}"
+    delegate_to: localhost
+    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
+    when: ova_builds_var.nic_config|lower == "rhel-multi" 
+
 
   - name: Change Networks (BIG-IP)
     vmware_guest:
@@ -71,4 +84,4 @@
       - name: "{{ Internal_Network }}"
     delegate_to: localhost
     with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
-    when: ova_builds_var.nic_config|lower == "multi"
+    when: ova_builds_var.nic_config|lower == "rhel-multi"
