@@ -1,0 +1,59 @@
+{
+  "name": "{{ova_builds_var.cluster_name}}-fleet",
+  "state": "APPROVED",
+  "metadata": {
+    "name": "m-mabis-dsc-fleet",
+    "namespace": "system",
+    "labels": {},
+    "annotations": {},
+    "disable": false
+  },
+  "spec": {
+    "network_connectors": [
+      {
+        "kind": "network_connector",
+        "tenant": "f5-bd-rwaldxii",
+        "namespace": "system",
+        "name": "{{ova_builds_var.cluster_name}}-connector"
+      }
+    ],
+    "outside_virtual_network": [
+      {
+        "kind": "virtual_network",
+        "tenant": "f5-bd-rwaldxii",
+        "namespace": "system",
+        "name": "{{ova_builds_var.cluster_name}}-outside"
+      }
+    ],
+    "inside_virtual_network": [
+      {
+        "kind": "virtual_network",
+        "tenant": "f5-bd-rwaldxii",
+        "namespace": "system",
+        "name": "{{ova_builds_var.cluster_name}}-inside"
+      }
+    ],
+    "interface_list": {
+      "interfaces": [
+        {
+          "tenant": "f5-bd-rwaldxii",
+          "namespace": "system",
+          "name": "{{ova_builds_var.hostname}}-0-eth1",
+          "kind": "network_interface"
+        },
+        {
+          "tenant": "f5-bd-rwaldxii",
+          "namespace": "system",
+          "name": "{{ova_builds_var.hostname}}-1-eth1",
+          "kind": "network_interface"
+        },
+        {
+          "tenant": "f5-bd-rwaldxii",
+          "namespace": "system",
+          "name": "{{ova_builds_var.hostname}}-2-eth1",
+          "kind": "network_interface"
+        }
+      ]
+    }
+  }
+}

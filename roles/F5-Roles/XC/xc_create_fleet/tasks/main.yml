@@ -1,18 +1,18 @@
 ---
 
- - name: Create Virtual Networks
-   include_tasks: create_virtual_network.yml
-   with_items: "{{xc_ova_builds}}"
-   loop_control:
-     loop_var: ova_builds_var
-   no_log: true
+- name: Create Virtual Networks
+  include_tasks: create_virtual_network.yml
+  with_items: "{{xc_ova_builds}}"
+  loop_control:
+    loop_var: ova_builds_var
+  no_log: true
 
-# - name: Create Fleet
-#    include_tasks: registration_accept.yml
-#    with_items: "{{xc_ova_builds}}"
-#    loop_control:
-#      loop_var: ova_builds_var
-#    no_log: true
+- name: Create Fleet
+  include_tasks: registration_accept.yml
+  with_items: "{{xc_ova_builds}}"
+  loop_control:
+    loop_var: ova_builds_var
+  no_log: true
 
 # - name: Attach Fleet
 #    include_tasks: registration_accept.yml
