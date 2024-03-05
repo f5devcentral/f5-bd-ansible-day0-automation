@@ -23,7 +23,7 @@
     ansible.builtin.uri:
       url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/config/namespaces/system/virtual_networks"
       method: POST
-      body: "{{ lookup('template','create_internal_virtual_network.j2', split_lines=False) }}"
+      body: "{{ lookup('template','create_inside_virtual_network.j2', split_lines=False) }}"
       status_code: 200
       timeout: 300
       body_format: json
