@@ -1,9 +1,9 @@
 ---
 
-  # - debug:
-  #     var: item
-  #   when: item.get_spec.passport.cluster_name == ova_builds_var.cluster_name
-  #   with_items: "{{ state.json['items'] }}"
+  - debug:
+      var: item
+    when: item.get_spec.passport.cluster_name == ova_builds_var.cluster_name
+    with_items: "{{ state.json['items'] }}"
 
   - name: Find Name of Registration to Accept
     ansible.builtin.set_fact: 
