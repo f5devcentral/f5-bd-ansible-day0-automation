@@ -12,5 +12,5 @@
         Authorization: "APIToken {{xc_api_credential}}"
       validate_certs: false
     delegate_to: localhost
-    register: inside_test_var
+    register: create_fleet
     # no_log: true
