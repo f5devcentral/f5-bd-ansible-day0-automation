@@ -14,7 +14,7 @@
     "dhcp_address": "NETWORK_INTERFACE_DHCP_DISABLE",
     "static_addresses": [
       {
-        "prefix": "{{ova_builds_var.ip[:-1]}}{{ item }}",
+        "prefix": "{{ova_builds_var.internal_ip[:-1]}}{{ item }}",
         "plen": '{{ova_builds_var.internal_ip_subnet_prefix}}'
       }
     ],
@@ -42,7 +42,7 @@
       "untagged": {},
       "static_ip": {
         "node_static_ip": {
-          "ip_address": "{{ova_builds_var.ip[:-1]}}{{ item }}"/{{ova_builds_var.internal_ip_subnet_prefix}},
+          "ip_address": "{{ova_builds_var.internal_ip[:-1]}}{{ item }}"/{{ova_builds_var.internal_ip_subnet_prefix}},
           "default_gw": "{{ova_builds_var.internal_ip_gw}}"
         }
       },
