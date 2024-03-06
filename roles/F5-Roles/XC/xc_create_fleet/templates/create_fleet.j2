@@ -3,9 +3,13 @@
   "state": "APPROVED",
   "metadata": {
     "name": "{{ova_builds_var.cluster_name}}-fleet",
+    "namespace": "system",
+    "labels": {},
+    "annotations": {},
     "disable": false
   },
   "spec": {
+    "fleet_label": "{{ova_builds_var.cluster_name}}-fleet",
     "network_connectors": [
       {
         "kind": "network_connector",

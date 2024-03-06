@@ -7,9 +7,9 @@
   gather_facts: true
   roles:
     - roles/General-Roles/date_time
-    - roles/F5-Roles/XC/xc_create_virtual_network
-    - roles/F5-Roles/XC/xc_create_network_interface
-    - roles/F5-Roles/XC/xc_create_connector
-    # - roles/F5-Roles/XC/xc_create_fleet
+    # - roles/F5-Roles/XC/xc_create_virtual_network
+    # - roles/F5-Roles/XC/xc_create_network_interface
+    # - roles/F5-Roles/XC/xc_create_connector
+    - roles/F5-Roles/XC/xc_create_fleet
     # - roles/F5-Roles/XC/xc_apply_fleet
     - roles/General-Roles/date_time

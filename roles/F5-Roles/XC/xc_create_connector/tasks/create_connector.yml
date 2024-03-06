@@ -1,6 +1,6 @@
 ---
 
-  - name: Create Fleet
+  - name: Create Connector
     ansible.builtin.uri:
       url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/config/namespaces/system/network_connectors"
       method: POST
