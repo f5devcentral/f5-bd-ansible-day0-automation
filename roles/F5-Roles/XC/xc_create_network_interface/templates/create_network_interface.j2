@@ -1,0 +1,37 @@
+{
+  "name": "{{ova_builds_var.hostname}}-{{ item }}-eth1",
+  "state": "APPROVED",
+  "metadata": {
+    "name": "{{ova_builds_var.hostname}}-{{ item }}-eth1",
+    "namespace": "system",
+    "labels": {},
+    "annotations": {},
+    "disable": false
+  },
+  "spec": {
+    "type": "NETWORK_INTERFACE_ETHERNET",
+    "mtu": 0,
+    "dhcp_address": "NETWORK_INTERFACE_DHCP_ENABLE",
+    "static_addresses": [],
+    "DHCP_server": "NETWORK_INTERFACE_DHCP_SERVER_DISABLE",
+    "vlan_tagging": "NETWORK_INTERFACE_VLAN_TAGGING_DISABLE",
+    "device_name": "eth1",
+    "vlan_tag": 0,
+    "priority": 0,
+    "interface_ip_map": {},
+    "is_primary": false,
+    "monitor_disabled": {},
+    "ethernet_interface": {
+      "device": "eth1",
+      "cluster": {},
+      "untagged": {},
+      "dhcp_client": {},
+      "no_ipv6_address": {},
+      "site_local_inside_network": {},
+      "mtu": 0,
+      "priority": 0,
+      "not_primary": {},
+      "monitor_disabled": {}
+    }
+  }
+}

@@ -1,0 +1,33 @@
+---
+
+  # - name: Network Interface
+  #   ansible.builtin.uri:
+  #     url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/config/namespaces/system/network_interfaces"
+  #     method: POST
+  #     body: "{{ lookup('template','create_network_interface.j2', split_lines=False) }}"
+  #     status_code: 200
+  #     timeout: 300
+  #     body_format: json
+  #     headers:
+  #       Authorization: "APIToken {{xc_api_credential}}"
+  #     validate_certs: false
+  #   delegate_to: localhost
+  #   register: network_interface
+  #   with_sequence: "start=1 count={{ova_builds_var.build_count}}" # format=%.3d"
+  #   # no_log: true
+
+  - name: Network Interface
+    ansible.builtin.uri:
+      url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/config/namespaces/system/network_interfaces"
+      method: POST
+      body: "{{ lookup('template','create_network_interface_static.j2', split_lines=False) }}"
+      status_code: 200
+      timeout: 300
+      body_format: json
+      headers:
+        Authorization: "APIToken {{xc_api_credential}}"
+      validate_certs: false
+    delegate_to: localhost
+    register: network_interface
+    with_sequence: "start=1 count={{ova_builds_var.build_count}}" # format=%.3d"
+    # no_log: true

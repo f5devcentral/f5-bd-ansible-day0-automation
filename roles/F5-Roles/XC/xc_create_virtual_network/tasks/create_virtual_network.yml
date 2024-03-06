@@ -1,0 +1,40 @@
+---
+
+  - name: Create Inside Network
+    ansible.builtin.uri:
+      url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/config/namespaces/system/virtual_networks"
+      method: POST
+      body: "{{ lookup('template','create_inside_virtual_network.j2', split_lines=False) }}"
+      status_code: 200
+      timeout: 300
+      body_format: json
+      headers:
+        Authorization: "APIToken {{xc_api_credential}}"
+      validate_certs: false
+    delegate_to: localhost
+    register: inside_test_var
+    # no_log: true
+
+  - name: Create Outside Network
+    ansible.builtin.uri:
+      url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/config/namespaces/system/virtual_networks"
+      method: POST
+      body: "{{ lookup('template','create_outside_virtual_network.j2', split_lines=False) }}"
+      status_code: 200
+      timeout: 300
+      body_format: json
+      headers:
+        Authorization: "APIToken {{xc_api_credential}}"
+      validate_certs: false
+    delegate_to: localhost
+    register: outside_test_var
+    # no_log: true
+
+  - debug:
+      var: inside_test_var
+
+  - debug:
+      var: outside_test_var
+
+#  with_sequence: "start=1 count={{ova_builds_var.build_count}}" # format=%.3d"
+#  "{{ ova_builds_var.tmpl_name }}-{{ item }}"

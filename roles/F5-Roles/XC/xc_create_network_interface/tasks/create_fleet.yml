@@ -1,0 +1,16 @@
+---
+
+  - name: Create Fleet
+    ansible.builtin.uri:
+      url: "https://{{ xc_console_host }}.console.ves.volterra.io/api/config/namespaces/system/fleets"
+      method: POST
+      body: "{{ lookup('template','create_fleet.j2', split_lines=False) }}"
+      status_code: 200
+      timeout: 300
+      body_format: json
+      headers:
+        Authorization: "APIToken {{xc_api_credential}}"
+      validate_certs: false
+    delegate_to: localhost
+    register: create_fleet
+    # no_log: true
