@@ -29,5 +29,5 @@
       validate_certs: false
     delegate_to: localhost
     register: network_interface
-    with_sequence: "start=1 count={{ova_builds_var.build_count}}" # format=%.3d"
+    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
     # no_log: true
