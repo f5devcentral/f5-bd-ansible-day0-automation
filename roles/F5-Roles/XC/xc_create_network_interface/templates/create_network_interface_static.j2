@@ -42,7 +42,7 @@
       "untagged": {},
       "static_ip": {
         "node_static_ip": {
-          "ip_address": "{{ova_builds_var.internal_ip[:-1]}}{{ item }}"/{{ova_builds_var.internal_ip_subnet_prefix}},
+          "ip_address": "{{ova_builds_var.internal_ip[:-1]}}{{ item }}/{{ova_builds_var.internal_ip_subnet_prefix}}",
           "default_gw": "{{ova_builds_var.internal_ip_gw}}"
         }
       },
