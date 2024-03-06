@@ -38,7 +38,7 @@
     "monitor_disabled": {},
     "ethernet_interface": {
       "device": "eth1",
-      "node": "master-0",
+      "node": "{{ova_builds_var.hostname}}-{{ item }}",
       "untagged": {},
       "static_ip": {
         "node_static_ip": {
