@@ -1,8 +1,7 @@
 ---
-
 - name: Create Fleet
-   include_tasks: create_fleet.yml
-   with_items: "{{xc_ova_builds}}"
-   loop_control:
-     loop_var: ova_builds_var
-   no_log: true
+  include_tasks: create_fleet.yml
+  with_items: "{{xc_ova_builds}}"
+  loop_control:
+    loop_var: ova_builds_var
+  no_log: true
