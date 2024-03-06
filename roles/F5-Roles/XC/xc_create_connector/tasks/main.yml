@@ -1,0 +1,7 @@
+---
+- name: Create Connector
+  include_tasks: create_connector.yml
+  with_items: "{{xc_ova_builds}}"
+  loop_control:
+    loop_var: ova_builds_var
+  no_log: true
