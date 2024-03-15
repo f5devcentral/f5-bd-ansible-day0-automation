@@ -1,0 +1,11 @@
+---
+#This Code is for 16.1 and above as the build contains a fix for guest customization to work correctly.
+
+#Deploy OVA
+- hosts: localhost
+  connection: httpapi
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
+    - roles/F5-Roles/NEXT/cm_get_info
+    - roles/General-Roles/date_time
