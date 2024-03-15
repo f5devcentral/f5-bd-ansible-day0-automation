@@ -3,7 +3,7 @@
 
 - name: Backup Next instance
   f5networks.next.cm_next_backup_restore:
-    device_ip: "{{ hostvars[item].inventory_hostname }}"
+    device_ip: "{{ hostvars[item].ansible_host }}"
     filename: "{{ hostvars[item].inventory_hostname }}-{{ backup_filename }}"
     file_password: "{{ backup_filename_pass }}"
     state: backup
