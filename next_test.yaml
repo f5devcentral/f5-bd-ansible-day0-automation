@@ -6,10 +6,10 @@
   connection: httpapi
   gather_facts: true
   vars:
+    ansible_httpapi_username: "{{ ansible_user }}"
     ansible_httpapi_password: "{{ ansible_password }}"
     ansible_httpapi_use_ssl: yes
     ansible_httpapi_validate_certs: no
-    ansible_httpapi_port: "{{ server_port }}"
   roles:
     - roles/General-Roles/date_time
     - roles/F5-Roles/NEXT/cm_get_info
