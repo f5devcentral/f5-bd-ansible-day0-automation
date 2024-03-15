@@ -15,6 +15,6 @@
     backup_filename_pass: "{{ ansible_password }}"
   roles:
     - roles/General-Roles/date_time
-    #- roles/F5-Roles/NEXT/cm_get_info
+    - roles/F5-Roles/NEXT/cm_get_info
     - roles/F5-Roles/NEXT/cm_next_backup
     - roles/General-Roles/date_time
