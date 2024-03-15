@@ -2,7 +2,7 @@
 # tasks insttall Declaritive Onboarding Latest
 
 - name: Backup Next instance
-  cm_next_backup_restore:
+  f5networks.next.cm_next_backup_restore:
     device_ip: "{{ hostvars[item].inventory_hostname }}"
     filename: "{{ hostvars[item].inventory_hostname }}-{{ backup_filename }}"
     file_password: "{{ backup_filename_pass }}"
