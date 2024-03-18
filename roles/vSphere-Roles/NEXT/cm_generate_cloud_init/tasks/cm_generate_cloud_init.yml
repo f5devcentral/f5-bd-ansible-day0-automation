@@ -8,6 +8,10 @@
   set_fact:
     r_myfile: "{{ lookup('template','metadata.yaml', split_lines=False) }}"
 
+- debug:
+    var: r_myfile
+
+
 - name: extract the data
   set_fact:
     mydata: "{{ r_myfile['content'] | b64decode | from_yaml }}"
