@@ -2,7 +2,8 @@
 
 - name: show templating results metadata
   ansible.builtin.debug:
-    var: "{{ lookup('ansible.builtin.template', 'metadata.yaml') }}"
+    var: "{{ lookup('template','metadata.yaml', split_lines=False) }}"
+    
 
 
 
