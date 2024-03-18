@@ -11,9 +11,10 @@
 - debug:
     var: userdata
 
-- set_fact:
-  base64_metadata: "{{ metadata | b64encode }}"
-  base64_userdata: "{{ userdata | b64encode }}"
+- name: re-encode metadata and userdata into base64
+  set_fact:
+    base64_metadata: "{{ metadata | b64encode }}"
+    base64_userdata: "{{ userdata | b64encode }}"
 
 - debug:
     var: base64_metadata
