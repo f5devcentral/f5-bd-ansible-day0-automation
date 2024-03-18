@@ -1,11 +1,11 @@
 ---
 
-- name: Generate mkpasswd command
-  ansible.builtin.shell:
-    cmd: mkpasswd -m sha-512 "{{ cm_password }}"
-  register: passwd_hash
-  delegate_to: localhost
+- name: show templating results metadata
+  ansible.builtin.debug:
+    msg: "{{ lookup('ansible.builtin.template', 'metadata.yaml') }}"
 
-- debug:
-    var: passwd_hash
 
+
+- name: show templating results userdata
+  ansible.builtin.debug:
+    msg: "{{ lookup('ansible.builtin.template', 'userdata.yaml') }}"
