@@ -5,7 +5,7 @@ network:
   ethernets:
     ens192:
       addresses: ["{{ cm_mgmt_ip }}"]
-      gateway4: '{{ cm_mgmt_gw_ip |int }}'
+      gateway4: '{{ cm_mgmt_gw_ip }}'
       dhcp6: false
       nameservers:
         addresses:
