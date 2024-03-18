@@ -2,10 +2,10 @@
 
 - name: show templating results metadata
   ansible.builtin.debug:
-    msg: "{{ lookup('ansible.builtin.template', 'metadata.yaml') | to_yaml }}"
+    var: "{{ lookup('ansible.builtin.template', 'metadata.yaml') }}"
 
 
 
 - name: show templating results userdata
   ansible.builtin.debug:
-    msg: "{{ lookup('ansible.builtin.template', 'userdata.yaml') | to_yaml }}"
+    var: "{{ lookup('ansible.builtin.template', 'userdata.yaml') | to_yaml }}"
