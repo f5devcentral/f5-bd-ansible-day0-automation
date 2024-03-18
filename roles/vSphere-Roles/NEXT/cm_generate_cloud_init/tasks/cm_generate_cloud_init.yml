@@ -2,7 +2,7 @@
 
 - name: Read the yaml 
   ansible.builtin.slurp:
-    path: 'templates/metadata.yaml'
+    path: 'metadata.yaml'
   register: r_myfile
 
 - name: extract the data
