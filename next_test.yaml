@@ -10,7 +10,7 @@
     - roles/vSphere-Roles/NEXT/deploy_cm_ova
 #    - roles/vSphere-Roles/BIG_IP/prep_f5_linked_clone
 #    - roles/vSphere-Roles/BIG_IP/clone_f5_vm
-    - roles/vSphere-Roles/vmware_tools_wait
+#    - roles/vSphere-Roles/NEXT/cm_vmware_tools_wait
 #    - roles/vSphere-Roles/BIG_IP/create_dyn_group_f5_vms
 
 

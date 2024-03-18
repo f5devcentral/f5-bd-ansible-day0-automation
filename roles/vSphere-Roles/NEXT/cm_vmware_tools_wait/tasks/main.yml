@@ -1,0 +1,5 @@
+---
+# tasks file for Create-VM
+
+ - name: Wait on VMware Guest Tools
+   include_tasks: cm_vmware_tools_wait.yml
