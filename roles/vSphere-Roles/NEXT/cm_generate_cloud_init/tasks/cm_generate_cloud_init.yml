@@ -14,7 +14,7 @@
 
 - name: extract the data
   set_fact:
-    mydata: "{{ r_myfile | b64decode | from_yaml }}"
+    mydata: "{{ r_myfile | from_yaml }}"
 
 - debug:
     var: mydata
