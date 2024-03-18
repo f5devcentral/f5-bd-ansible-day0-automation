@@ -6,18 +6,15 @@
 #   register: r_myfile
 - name: extract the data
   set_fact:
-    r_myfile: "{{ lookup('template','metadata.yaml', split_lines=False) | from_yaml}}"
+    metadata: "{{ lookup('template','metadata.yaml', split_lines=False) | from_yaml}}"
+    userdata: "{{ lookup('template','userdata.yaml', split_lines=False) | from_yaml}}"
+
 
 - debug:
-    var: r_myfile
-
-
-- name: extract the data
-  set_fact:
-    mydata: "{{ r_myfile | from_yaml }}"
+    var: metadata
 
 - debug:
-    var: mydata
+    var: userdata
 
 
 # - name: show templating results metadata
