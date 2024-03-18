@@ -4,10 +4,12 @@
 #   ansible.builtin.slurp:
 #     path: 'metadata.yaml'
 #   register: r_myfile
-
 - name: extract the data
   set_fact:
     r_myfile: "{{ lookup('template','metadata.yaml', split_lines=False) }}"
+
+- name: extract the data
+  set_fact:
     mydata: "{{ r_myfile['content'] | b64decode | from_yaml }}"
 
 - debug:
