@@ -1,12 +1,22 @@
 ---
 
-- name: show templating results metadata
-  ansible.builtin.debug:
-    var: "{{ lookup('template','metadata.yaml', split_lines=False) }}"
-    
+- name: Read the yaml 
+  ansible.builtin.slurp:
+    path: 'templates/metadata.yaml'
+  register: r_myfile
+
+- name: extract the data
+  set_fact:
+    mydata: "{{ r_myfile['content'] | b64decode | from_yaml }}"
+
+- debug:
+    var: mydata
 
 
+# - name: show templating results metadata
+#   ansible.builtin.debug:
+#     var: "{{ lookup('template','metadata.yaml', split_lines=False) }}"
 
-- name: show templating results userdata
-  ansible.builtin.debug:
-    var: "{{ lookup('template','userdata.yaml', split_lines=False) }}"
+# - name: show templating results userdata
+#   ansible.builtin.debug:
+#     var: "{{ lookup('template','userdata.yaml', split_lines=False) }}"
