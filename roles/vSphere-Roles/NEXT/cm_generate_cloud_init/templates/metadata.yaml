@@ -4,13 +4,14 @@ network:
   version: 2
   ethernets:
     ens192:
-      addresses: ['{{ cm_mgmt_ip }}']
-      gateway4: "{{ cm_mgmt_gw_ip }}"
+      addresses: ["{{ cm_mgmt_ip }}"]
+      gateway4: '{{ cm_mgmt_gw_ip }}'
       dhcp6: false
       nameservers:
         addresses:
-          - "{{ dns_name_servers }}"
+          - "{{ dns_name_servers[0] }}"
+          - "{{ dns_name_servers[1] }}"
         search:
-          - "{{ dns_name_search }}"
+          - "{{ dns_name_search[0] }}"
       dhcp4: false
       optional: true
