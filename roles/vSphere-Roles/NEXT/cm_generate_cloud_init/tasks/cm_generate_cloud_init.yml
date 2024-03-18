@@ -13,8 +13,8 @@
 
 - name: re-encode metadata and userdata into base64
   set_fact:
-    base64_metadata: "{{ metadata | b64encode | from_yaml }}"
-    base64_userdata: "{{ userdata | b64encode | from_yaml }}"
+    base64_metadata: "{{ metadata | b64encode | to_yaml }}"
+    base64_userdata: "{{ userdata | b64encode | to_yaml }}"
 
 - debug:
     var: base64_metadata
