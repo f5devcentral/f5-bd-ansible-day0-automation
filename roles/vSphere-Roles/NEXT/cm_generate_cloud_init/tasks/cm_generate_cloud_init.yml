@@ -6,7 +6,7 @@
 #   register: r_myfile
 - name: extract the data
   set_fact:
-    r_myfile: "{{ lookup('template','metadata.yaml', split_lines=False) }}"
+    r_myfile: "{{ lookup('template','metadata.yaml', split_lines=False) | from_yaml}}"
 
 - debug:
     var: r_myfile
