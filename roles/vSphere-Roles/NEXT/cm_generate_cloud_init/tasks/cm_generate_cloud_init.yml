@@ -1,0 +1,11 @@
+---
+
+- name: Generate mkpasswd command
+  ansible.builtin.shell:
+    cmd: mkpasswd -m sha-512 "{{ cm_password }}"
+  register: passwd_hash
+  delegate_to: localhost
+
+- debug:
+    var: passwd_hash
+
