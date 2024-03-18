@@ -1,14 +1,9 @@
 ---
 
-# - name: Read the yaml 
-#   ansible.builtin.slurp:
-#     path: 'metadata.yaml'
-#   register: r_myfile
-- name: extract the data
+- name: Read file and modify with ansible variables
   set_fact:
     metadata: "{{ lookup('template','metadata.yaml', split_lines=False) | from_yaml}}"
     userdata: "{{ lookup('template','userdata.yaml', split_lines=False) | from_yaml}}"
-
 
 - debug:
     var: metadata
@@ -16,11 +11,12 @@
 - debug:
     var: userdata
 
+- set_fact:
+  base64_metadata: "{{ metadata | b64encode }}"
+  base64_userdata: "{{ userdata | b64encode }}"
 
-# - name: show templating results metadata
-#   ansible.builtin.debug:
-#     var: "{{ lookup('template','metadata.yaml', split_lines=False) }}"
+- debug:
+    var: base64_metadata
 
-# - name: show templating results userdata
-#   ansible.builtin.debug:
-#     var: "{{ lookup('template','userdata.yaml', split_lines=False) }}"
+- debug:
+    var: base64_userdata
