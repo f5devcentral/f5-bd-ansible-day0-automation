@@ -1,0 +1,7 @@
+---
+
+ - name: Provision VM from Template 
+   include_tasks: deploy_f5_ova.yml
+
+#  - name: Create Cloud-init for VM
+#    include_tasks: generate_cloud_init.yml

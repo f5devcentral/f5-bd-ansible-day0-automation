@@ -1,20 +1,42 @@
 ---
-#This Code is for 16.1 and above as the build contains a fix for guest customization to work correctly.
 
 #Deploy OVA
-- hosts: next-cm
-  connection: httpapi
+- hosts: vCenter
+  connection: local
   gather_facts: true
-  vars:
-    ansible_httpapi_username: "{{ ansible_user }}"
-    ansible_httpapi_password: "{{ ansible_password }}"
-    ansible_httpapi_use_ssl: yes
-    ansible_httpapi_validate_certs: no
-    ansible_network_os: f5networks.next.cm
-    backup_filename: "_testing_backup.tar.gz"
-    backup_filename_pass: "{{ ansible_password }}"
   roles:
     - roles/General-Roles/date_time
-    - roles/F5-Roles/NEXT/cm_get_info
-    - roles/F5-Roles/NEXT/cm_next_backup
+    - roles/vSphere-Roles/create_resource_pool
+    - roles/vSphere-Roles/NEXT/deploy_cm_ova
+#    - roles/vSphere-Roles/BIG_IP/prep_f5_linked_clone
+#    - roles/vSphere-Roles/BIG_IP/clone_f5_vm
+    - roles/vSphere-Roles/vmware_tools_wait
+#    - roles/vSphere-Roles/BIG_IP/create_dyn_group_f5_vms
+
+
+
+# #Deploy OVA
+# - hosts: next-cm
+#   connection: httpapi
+#   gather_facts: true
+#   vars:
+#     ansible_httpapi_username: "{{ ansible_user }}"
+#     ansible_httpapi_password: "{{ ansible_password }}"
+#     ansible_httpapi_use_ssl: yes
+#     ansible_httpapi_validate_certs: no
+#     ansible_network_os: f5networks.next.cm
+#     backup_filename: "_testing_backup.tar.gz"
+#     backup_filename_pass: "{{ ansible_password }}"
+#   roles:
+#     - roles/General-Roles/date_time
+#     - roles/F5-Roles/NEXT/cm_get_info
+#     - roles/F5-Roles/NEXT/cm_next_backup
+#     - roles/General-Roles/date_time
+
+
+#Deploy OVA
+- hosts: vCenter
+  connection: local
+  gather_facts: true
+  roles:
     - roles/General-Roles/date_time
