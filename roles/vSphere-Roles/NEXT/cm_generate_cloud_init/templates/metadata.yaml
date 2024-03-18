@@ -4,7 +4,7 @@ network:
   version: 2
   ethernets:
     ens192:
-      addresses: ["{{ cm_mgmt_ip }}"]
+      addresses: ["{{ cm_mgmt_ip[1:-1] }}"]
       gateway4: '{{ cm_mgmt_gw_ip }}'
       dhcp6: false
       nameservers:
