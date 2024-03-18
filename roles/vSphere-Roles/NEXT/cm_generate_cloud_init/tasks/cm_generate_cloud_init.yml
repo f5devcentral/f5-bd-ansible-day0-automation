@@ -9,4 +9,4 @@
 
 - name: show templating results userdata
   ansible.builtin.debug:
-    var: "{{ lookup('ansible.builtin.template', 'userdata.yaml') | to_yaml }}"
+    var: "{{ lookup('template','userdata.yaml', split_lines=False) }}"
