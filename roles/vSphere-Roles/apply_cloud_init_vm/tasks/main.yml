@@ -1,0 +1,31 @@
+---
+
+# - name: Add Resource Pool to vCenter
+#   vmware_resource_pool:
+#     hostname: "{{ vcenter_hostname }}"
+#     username: "{{ vcenter_username }}"
+#     password: "{{ vcenter_password }}"
+#     validate_certs: "{{ vcenter_validate_certs }}"
+#     datacenter: "{{ datacenter_name }}"
+#     cluster: "{{ cluster_name }}"
+#     resource_pool: "{{resource_pool_name}}"
+#     state: present
+#   delegate_to: localhost
+
+- name: Modify VM Advanced Parameters for Cloud-init
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: "{{ vcenter_validate_certs }}"
+    name: "{{ cm_hostname }}"
+    advanced_settings:
+    - "key": "guestinfo.metadata"
+      "value": "{{base64_metadata}}"
+    - "key": "guestinfo.metadata.encoding"
+      "value": "base64"
+    - "key": "guestinfo.userdata"
+      "value": "{{base64_userdata}}"
+    - "key": "guestinfo.userdata.encoding"
+      "value": "base64"
+  delegate_to: localhost
