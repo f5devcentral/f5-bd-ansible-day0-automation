@@ -35,6 +35,8 @@ users:
     groups: users, admin
 timezone: UTC
 chpasswd:
-  list: |
-    admin:"{{ cm_password | password_hash }}"
+  users: 
+  - name: admin
+    password: "{{ cm_password | password_hash }}"
+    type: hash
   expire: False
