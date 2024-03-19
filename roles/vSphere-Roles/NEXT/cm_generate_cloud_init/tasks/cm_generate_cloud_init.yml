@@ -2,7 +2,7 @@
 
 - name: Read file and modify with ansible variables
   set_fact:
-    metadata: "{{ lookup('file','metadata.yml', split_lines=False  | from_yaml)}}"
+    metadata: "{{ lookup('file','metadata.yml', split_lines=False)  | from_yaml}}"
     userdata: "{{ lookup('file','userdata.yml', split_lines=False) | from_yaml}}"
 
 - debug:
