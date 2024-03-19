@@ -23,7 +23,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL 
 runcmd:
 #  - [passwd, --expire, admin]
-  - [sleep, 300]
+#  - [sleep, 300]
   - [sudo, -u, admin, bash, -c, "cat /home/admin/setup.txt | setup"]
 write_files:
   - path: /home/admin/setup.txt
