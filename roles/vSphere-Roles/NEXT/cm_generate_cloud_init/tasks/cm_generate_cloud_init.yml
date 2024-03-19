@@ -14,7 +14,7 @@
 - name: re-encode metadata and userdata into base64
   set_fact:
     base64_metadata: "{{ metadata | to_nice_yaml | b64encode  }}"
-    base64_userdata: "I2Nsb3VkLWNvbmZpZyAK{{ userdata | to_nice_yaml | b64encode  }}"
+    base64_userdata: "I2Nsb3VkLWNvbmZpZyAK{{ userdata | to_nice_yaml | b64encode  }}d3JpdGVfZmlsZXM6CiAgLSBwYXRoOiAvaG9tZS9hZG1pbi9zZXR1cC50eHQKICAgIHBlcm1pc3Npb25zOiAnMDY0NCcKICAgIG93bmVyOiBhZG1pbjphZG1pbgogICAgY29udGVudDogfAogICAgICAie3sgY21faG9zdG5hbWUgfX0iCiAgICAgIG4KICAgICAgInt7IG50cF9zZXJ2ZXJzWzBdIH19IgogICAgICAie3sgbnRwX3NlcnZlcnNbMV0gfX0iCiAgICAgIAogICAgICAKICAgICAgbgogICAgICB5CiAgICAgIHkK"
 
 - debug:
     var: base64_metadata
