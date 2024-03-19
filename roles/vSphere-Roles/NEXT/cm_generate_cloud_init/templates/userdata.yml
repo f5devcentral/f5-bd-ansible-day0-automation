@@ -5,7 +5,7 @@ chpasswd:
   - name: admin
     password: "{{ cm_password | password_hash }}"
     type: hash
-  expire: False
+    expire: False
 system_info:
   default_user:
     name: ubuntu
