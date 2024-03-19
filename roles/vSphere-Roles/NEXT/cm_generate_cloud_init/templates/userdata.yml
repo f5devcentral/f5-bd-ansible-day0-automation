@@ -1,4 +1,4 @@
-\#cloud-config
+#cloud-config
 # write_files:
 #   - path: /home/admin/setup.txt
 #     permissions: '0644'
