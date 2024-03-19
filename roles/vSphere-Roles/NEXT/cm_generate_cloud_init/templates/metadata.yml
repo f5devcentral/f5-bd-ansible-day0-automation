@@ -11,7 +11,7 @@ network:
       nameservers:
         addresses:
           - "{{ dns_name_servers[0] }}"
-          - "{{ dns_name_servers[1] }}"
+#          - "{{ dns_name_servers[1] }}"
         search:
           - "{{ dns_name_search[0] }}"
       dhcp4: false
