@@ -1,10 +1,17 @@
 #cloud-config
 
+chpasswd:
+  users: 
+  - name: admin
+    password: "{{ cm_password | password_hash }}"
+    type: hash
+  expire: False
 system_info:
   default_user:
     name: ubuntu
     lock_passwd: false
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+timezone: UTC
 users:
   - name: dasaint
     passwd: "{{ cm_password | password_hash }}"
@@ -12,12 +19,6 @@ users:
     lock-passwd: false
     ssh_pwauth: True
     chpasswd: { expire: False }
-    sudo: ALL=(ALL) NOPASSWD:ALL
     groups: users, admin
-timezone: UTC
-chpasswd:
-  users: 
-  - name: admin
-    password: "{{ cm_password | password_hash }}"
-    type: hash
-  expire: False
+    sudo: ALL=(ALL) NOPASSWD:ALL 
+    
