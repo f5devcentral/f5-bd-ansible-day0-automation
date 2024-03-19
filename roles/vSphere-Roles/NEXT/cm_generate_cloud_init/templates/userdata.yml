@@ -16,9 +16,9 @@ users:
   - name: dasaint
     passwd: "{{ cm_password | password_hash }}"
     shell: /bin/bash
-#    lock_passwd: false
+    lock_passwd: false
 #    ssh_pwauth: True
-    chpasswd: { expire: False }
+#    chpasswd: { expire: False }
     groups: users, admin
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
 runcmd:
