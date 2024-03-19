@@ -1,22 +1,17 @@
 ---
 
-#Deploy OVA
+#Deploy CM Instance
 - hosts: vCenter
   connection: local
   gather_facts: true
   roles:
     - roles/General-Roles/date_time
-    # - roles/vSphere-Roles/create_resource_pool
-    # - roles/vSphere-Roles/NEXT/cm_deploy_ova
-    # - roles/vSphere-Roles/NEXT/cm_take_snapshot
+    - roles/vSphere-Roles/create_resource_pool
+    - roles/vSphere-Roles/NEXT/cm_deploy_ova
+    - roles/vSphere-Roles/NEXT/cm_take_snapshot
     - roles/vSphere-Roles/NEXT/cm_generate_cloud_init
     - roles/vSphere-Roles/NEXT/apply_cloud_init_vm
     - roles/vSphere-Roles/NEXT/power_on_vm
-#    - roles/vSphere-Roles/BIG_IP/prep_f5_linked_clone
-#    - roles/vSphere-Roles/BIG_IP/clone_f5_vm
-#    - roles/vSphere-Roles/NEXT/cm_vmware_tools_wait
-#    - roles/vSphere-Roles/BIG_IP/create_dyn_group_f5_vms
-
 
 
 # #Deploy OVA
