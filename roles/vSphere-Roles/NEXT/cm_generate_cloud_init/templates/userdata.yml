@@ -20,7 +20,7 @@ users:
 #    ssh_pwauth: True
 #    chpasswd: { expire: False }
     groups: users, admin
-    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    sudo: ALL=(ALL) NOPASSWD:ALL
 runcmd:
 #  - [passwd, --expire, admin]
 #  - [sleep, 300]
