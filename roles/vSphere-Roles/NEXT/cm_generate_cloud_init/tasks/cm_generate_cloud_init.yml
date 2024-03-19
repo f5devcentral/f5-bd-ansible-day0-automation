@@ -21,7 +21,7 @@
 
 - name: fix ending and add script
   set_fact:
-    base64_userdata: = "{{ base64_userdata [:-1] }}d3JpdGVfZmlsZXM6CiAgLSBwYXRoOiAvaG9tZS9hZG1pbi9zZXR1cC50eHQKICAgIHBlcm1pc3Npb25zOiAnMDY0NCcKICAgIG93bmVyOiBhZG1pbjphZG1pbgogICAgY29udGVudDogfAogICAgICAie3sgY21faG9zdG5hbWUgfX0iCiAgICAgIG4KICAgICAgInt7IG50cF9zZXJ2ZXJzWzBdIH19IgogICAgICAie3sgbnRwX3NlcnZlcnNbMV0gfX0iCiAgIAogICAgCiAgICAgIG4KICAgICAgeQogICAgICB5CgpydW5jbWQ6CiAgLSBbcGFzc3dkLCAtLWV4cGlyZSwgYWRtaW5dCiAgLSBbc2xlZXAsIDMwMF0KICAtIFtzdWRvLC11LGFkbWluLGJhc2gsLWMsImNhdCAvaG9tZS9hZG1pbi9zZXR1cC50eHQgfCBzZXR1cCJdIAoK" 
+    base64_userdata: = "{{ base64_userdata [:-1] }}" 
 
 - debug:
     var: base64_metadata
