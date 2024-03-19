@@ -30,10 +30,10 @@ write_files:
     permissions: '0644'
     owner: admin:admin
     content: |
-      "{{ cm_hostname }}"
+      {{ cm_hostname }}
       n
-      "{{ ntp_servers[0] }}"
-      "{{ ntp_servers[1] }}"
+      {{ ntp_servers[0] }}
+      {{ ntp_servers[1] }}
       100.75.0.0/16
       100.76.0.0/14
       n
