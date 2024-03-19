@@ -34,8 +34,8 @@ write_files:
       n
       "{{ ntp_servers[0] }}"
       "{{ ntp_servers[1] }}"
-   
-    
+      100.75.0.0/16
+      100.76.0.0/14
       n
       y
       y
