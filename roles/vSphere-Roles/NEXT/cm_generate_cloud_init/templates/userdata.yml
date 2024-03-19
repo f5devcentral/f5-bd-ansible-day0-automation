@@ -5,7 +5,7 @@ chpasswd:
   - name: admin
     password: "{{ cm_password | password_hash }}"
     type: hash
-    expire: False
+  expire: False
 system_info:
   default_user:
     name: ubuntu
@@ -22,7 +22,7 @@ users:
     groups: users, admin
     sudo: ALL=(ALL) NOPASSWD:ALL 
 runcmd:
-  - [passwd, --expire, admin]
+#  - [passwd, --expire, admin]
   - [sleep, 300]
   - [sudo, -u, admin, bash, -c, "cat /home/admin/setup.txt | setup"]
 write_files:
