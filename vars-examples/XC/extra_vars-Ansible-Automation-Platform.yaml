@@ -1,14 +1,15 @@
 {
-  "centos_location": "https://vesio.blob.core.windows.net/releases/images/2023-11-22/centos-7.2009.45-202311221420.ova",
-  "xc_api_credential": "MYAPICREDS",  #To utilize this code the API Credentials will need to be an overall administrator of the XC Instance (Needs System access to be able to register and approve XC Instances), will also be able to query created site tokens
-  "xc_namespace": "mmabis-automation",
-  "xc_console_host": "f5-bd",         #XC Tenant Name https://f5-bd.console.ves.volterra.io/ is our example f5-bd is the front end of the name
-  "xc_user": "admin",                 #XC Deployed CE Instance Username 
-  "xc_pass": "SuperSecretPass123!",   #XC Deployed CE Instance Password
-  "vcenter_hostname": "{{ ansible_host }}",
-  "vcenter_username": "{{ ansible_env.ANSIBLE_NET_USERNAME }}",  #This variable is utilizing the Username via applied Credentials for vSphere
-  "vcenter_password": "{{ ansible_env.ANSIBLE_NET_PASSWORD }}",  #This variable is utilizing the Username via applied Credentials for vSphere
-  "vcenter_validate_certs": false,
+  "centos_location": "https://vesio.blob.core.windows.net/releases/images/2023-11-22/centos-7.2009.45-202311221420.ova", #Provides the OVA's Location and can be set statically, all one has to do is goto 
+  "rhel_location": "https://vesio.blob.core.windows.net/releases/rhel/9/x86_64/images/vmware/rhel-9.2023.29-20231212012955-single-nic.ova",
+  "xc_api_credential": "MYAPICREDS",   #To utilize this code the API Credentials will need to be an overall administrator of the XC Instance (Needs System access to be able to register and approve XC Instances), will also be able to query created site tokens
+  "xc_namespace": "mmabis-automation", #XC Tenant Namespace 
+  "xc_console_host": "f5-bd",          #XC Tenant Name https://f5-bd.console.ves.volterra.io/ is our example f5-bd is the front end of the name
+  "xc_user": "admin",                  #XC Deployed CE Instance Username 
+  "xc_pass": "SuperSecretPass123!",    #XC Deployed CE Instance Password
+  "vcenter_hostname": "{{ ansible_host }}",  #vShere Host provided by Inventory and Primary Playbook (Hosts)
+  "vcenter_username": "{{ ansible_env.ANSIBLE_NET_USERNAME }}",  #This variable is utilizing the Username via applied Credentials for vSphere created in AAP
+  "vcenter_password": "{{ ansible_env.ANSIBLE_NET_PASSWORD }}",  #This variable is utilizing the Username via applied Credentials for vSphere created in AAP
+  "vcenter_validate_certs": false,     #This is for vCenter Certificate check - To validate or not
   "datacenter_name": "My-Datacenter", #Fill out for specific environment or could be a Survey
   "cluster_name": "My-Cluster", #Fill out for specific environment or could be a Survey
   "datastore": "My-Storage", #Fill out for specific environment or could be a Survey
@@ -27,7 +28,7 @@
     "2.pool.ntp.org"
   ],
   "domain_fqdn": "my_domain.local",
-  "DVS_Name": "{{dvs_switch_name}}",
+  "DVS_Name": "{{dvs_switch_name}}",          #Network Switch on vCenter/ESXi to attach to OVA
   "Internal_Network": "DVS-Server-vLan",      #Network Portgroups for Internal Network attachment to OVA
   "External_Network": "DVS-DMZ-vLan",         #Network Portgroups for External Network attachment to OVA
   "resource_pool_name": "Lab-XC",             #Creates Resource Pool for Lab
@@ -35,23 +36,23 @@
   "temp_download_location": "/tmp/xc-ova-download.ova",    #Location where Execution Environment stores downloaded OVA Image
   "xc_ova_builds": [
     {
-      "hostname": "xc-automation",
-      "tmpl_name": "xc-automation-test",
-      "admin_password": "SuperSecretPass123!",
-      "cluster_name": "xc-automation-cluster",
-      "dhcp": "no",
-      "external_ip": "172.16.1.170",
-      "external_ip_subnet_prefix": "24",
-      "external_ip_gw": "172.16.1.1",
-      "external_ip_route": "0.0.0.0/0",
-      "internal_ip": "192.168.100.170",
-      "internal_ip_subnet_prefix": "22",
-      "internal_ip_gw": "192.168.100.1",
-      "certified_hw": "vmware-regular-nic-voltmesh",
-      "latitude": "39.51833126",
-      "longitude": "-104.759496962",
-      "build_count": 3,
-      "nic_config": "centos"
+      "hostname": "xc-automation-test",              #Hostname on XC CE will be populated to VM Name and hostname within OS
+      "tmpl_name": "xc-automation-test",        
+      "admin_password": "SuperSecretPass123!",       #Password for XC CE
+      "cluster_name": "xc-automation-cluster",       #Cluster Created in XC Console
+      "dhcp": "no",                                  #Disable DHCP for XC CE
+      "external_ip": "172.16.1.170",                 #Static IP for XC CE External Connection (This is used on the primary interface eth0)
+      "external_ip_subnet_prefix": "24",             #Subnet for Static IP for XC CE External Connection (This is used on the primary interface eth0)
+      "external_ip_gw": "172.16.1.1",                #Gateway IP for XC CE External Connection (This is used on the primary interface eth0)
+      "external_ip_route": "0.0.0.0/0",              #Default Route for XC CE External Connection (This is used on the primary interface eth0)
+      "internal_ip": "192.168.100.170",              #Static IP for XC CE Internal Connection (This is used on the seondary interface eth0 (NOT USED YET))
+      "internal_ip_subnet_prefix": "22",             #Subnet for XC CE Internal Connvection (This is used on the seondary interface eth0 (NOT USED YET))
+      "internal_ip_gw": "192.168.100.1",             #Gateway IP for XC CE Internal Connection (This is used on the seondary interface eth0 (NOT USED YET))
+      "certified_hw": "vmware-regular-nic-voltmesh", #Not Used on RHEL images but if using previous CENTOS image this is there for that.
+      "latitude": "39.51833126",                     #Latitude in dot format for XC CE image location 
+      "longitude": "-104.759496962",                 #Longitude in dot format for XC CE image location 
+      "build_count": 3,                              #Build Count for Cluster (Code must wait for how many are deployed to cluster to finish)
+      "nic_config": "rhel-multi"                     #This is for Backend Code (Options are  rhel, rhel-multi, centos) rhel is for single nic and rhel-multi deploys secondary nic
     }
   ]
 }
