@@ -6,6 +6,25 @@ chpasswd:
     password: "{{ next_password | password_hash }}"
     type: hash
   expire: False
+f5_bigip_next:
+  admin_password: "{{ next_password }}"
+  setup:
+    ntp: "{{ ntp_servers }}"
+    vlans:
+      -
+        name: internal-trunk
+        selfip: "{{ next_trunk_internal_ip }}"
+        interface: 1.1
+        vlan: 192
+      -
+        name: external-trunk
+        selfip: "{{ next_trunk_external_ip }}"
+        interface: 1.2
+        vlan: 20
+  onboard:
+    platform:
+      hostname: big-ip-next-04.example.com
+      platformType: ve
 system_info:
   default_user:
     name: ubuntu

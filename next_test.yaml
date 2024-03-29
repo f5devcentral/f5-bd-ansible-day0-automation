@@ -13,8 +13,8 @@
     # - roles/vSphere-Roles/NEXT/cm_apply_cloud_init
     # - roles/vSphere-Roles/NEXT/cm_power_on_vm
 
-    - roles/vSphere-Roles/NEXT/next_deploy_ova
-    - roles/vSphere-Roles/NEXT/next_take_snapshot
+    # - roles/vSphere-Roles/NEXT/next_deploy_ova
+    # - roles/vSphere-Roles/NEXT/next_take_snapshot
     - roles/vSphere-Roles/NEXT/next_generate_cloud_init
     - roles/vSphere-Roles/NEXT/next_apply_cloud_init
     - roles/vSphere-Roles/NEXT/next_power_on_vm
