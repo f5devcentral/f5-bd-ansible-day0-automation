@@ -9,7 +9,7 @@ chpasswd:
 f5_bigip_next:
   admin_password: "{{ next_password }}"
   setup:
-    ntp: ['0.pool.ntp.org']
+    ntp: "{{ ntp_servers }}"
     vlans:
       -
         name: internal-trunk
