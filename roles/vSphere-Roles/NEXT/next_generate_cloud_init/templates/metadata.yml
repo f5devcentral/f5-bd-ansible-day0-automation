@@ -3,7 +3,7 @@ local-hostname: "{{ next_hostname }}"
 network:
   version: 2
   ethernets:
-    ens192:
+    ens160:
       addresses: 
         - "{{ next_mgmt_ip }}"
       gateway4: '{{ next_mgmt_gw_ip }}'
