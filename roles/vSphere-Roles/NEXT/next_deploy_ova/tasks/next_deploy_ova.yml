@@ -1,0 +1,54 @@
+---
+
+  - name: Deploy OVA
+    community.vmware.vmware_deploy_ovf:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      datacenter: "{{ datacenter_name }}"
+      cluster: "{{ cluster_name }}"
+      datastore: "{{ datastore }}"
+      resource_pool: "{{ resource_pool_name }}"
+      validate_certs: no
+      name: "{{ next_hostname }}"
+      networks: "{u'VM Network':u'{{ next_vsphere_mgmt_network }}'}"
+      power_on: no
+      ovf: "{{ next_ova }}"
+      wait_for_ip_address: yes
+    delegate_to: localhost
+
+  - name: Add Trunk NIC to Next Instance
+    community.vmware.vmware_guest_network:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      datacenter: "{{ datacenter_name }}"
+      name: "{{ next_hostname }}"
+      network_name: "{{ next_trunk_network }}"
+      validate_certs: no
+    delegate_to: localhost
+    when: next_trunk_network is defined
+
+  - name: Add Internal NIC to Next Instance
+    community.vmware.vmware_guest_network:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      datacenter: "{{ datacenter_name }}"
+      name: "{{ next_hostname }}"
+      network_name: "{{ next_internal_network }}"
+      validate_certs: no
+    delegate_to: localhost
+    when: next_internal_network is defined  
+
+  - name: Add External NIC to Next Instance
+    community.vmware.vmware_guest_network:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      datacenter: "{{ datacenter_name }}"
+      name: "{{ next_hostname }}"
+      network_name: "{{ next_external_network }}"
+      validate_certs: no
+    delegate_to: localhost
+    when: next_external_network is defined  

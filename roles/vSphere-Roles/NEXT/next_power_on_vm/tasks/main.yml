@@ -1,0 +1,11 @@
+---
+
+- name: Power ON VM
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: "{{ vcenter_validate_certs }}"
+    name: "{{ next_hostname }}"
+    state: poweredon
+  delegate_to: localhost

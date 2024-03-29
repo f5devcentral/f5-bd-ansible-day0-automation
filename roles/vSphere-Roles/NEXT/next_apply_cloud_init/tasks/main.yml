@@ -1,0 +1,19 @@
+---
+
+- name: Modify VM Advanced Parameters for Cloud-init
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: "{{ vcenter_validate_certs }}"
+    name: "{{ next_hostname }}"
+    advanced_settings:
+    - "key": "guestinfo.metadata"
+      "value": "{{base64_metadata}}"
+    - "key": "guestinfo.metadata.encoding"
+      "value": "base64"
+    - "key": "guestinfo.userdata"
+      "value": "{{base64_userdata}}"
+    - "key": "guestinfo.userdata.encoding"
+      "value": "base64"
+  delegate_to: localhost

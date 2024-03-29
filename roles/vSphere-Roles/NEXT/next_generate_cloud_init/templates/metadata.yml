@@ -1,0 +1,18 @@
+instance-id: "{{ next_hostname }}"
+local-hostname: "{{ next_hostname }}"
+network:
+  version: 2
+  ethernets:
+    ens192:
+      addresses: 
+        - "{{ next_mgmt_ip }}"
+      gateway4: '{{ next_mgmt_gw_ip }}'
+      dhcp6: false
+      nameservers:
+        addresses:
+          - "{{ dns_name_servers[0] }}"
+#          - "{{ dns_name_servers[1] }}"
+        search:
+          - "{{ dns_name_search[0] }}"
+      dhcp4: false
+      optional: true
