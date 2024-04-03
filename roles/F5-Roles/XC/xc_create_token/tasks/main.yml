@@ -16,7 +16,7 @@
 
  - name: Setting Token from XC Existing Token
    ansible.builtin.set_fact:
-     token: "{{ existing_token.json.object.metadata.uid }}"
+     token: "{{ existing_token.json.system_metadata.uid }}"
    when: xc_token is undefined and existing_token.status != 404 
    delegate_to: localhost
 
