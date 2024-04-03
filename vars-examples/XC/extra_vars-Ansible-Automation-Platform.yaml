@@ -2,7 +2,7 @@
   "centos_location": "https://vesio.blob.core.windows.net/releases/images/2023-11-22/centos-7.2009.45-202311221420.ova", #Provides the OVA's Location and can be set statically, all one has to do is goto 
   "rhel_location": "https://vesio.blob.core.windows.net/releases/rhel/9/x86_64/images/vmware/rhel-9.2023.29-20231212012955-single-nic.ova",
   "xc_api_credential": "MYAPICREDS",   #To utilize this code the API Credentials will need to be an overall administrator of the XC Instance (Needs System access to be able to register and approve XC Instances), will also be able to query created site tokens
-  "xc_token": "MyToken",               #Enter Registration token manually instead of API driven pull
+  "xc_token": "MyToken",               #OPTIONAL - Enter Registration token manually instead of API driven pull if missing will use API to find
   "xc_namespace": "mmabis-automation", #XC Tenant Namespace 
   "xc_console_host": "f5-bd",          #XC Tenant Name https://f5-bd.console.ves.volterra.io/ is our example f5-bd is the front end of the name
   "xc_user": "admin",                  #XC Deployed CE Instance Username 
