@@ -12,7 +12,7 @@
    delegate_to: localhost
    register: existing_token
    when: xc_token is undefined
-   no_log: true
+   #no_log: true
 
  - name: Setting Token from XC Existing Token
    ansible.builtin.set_fact:
