@@ -40,7 +40,7 @@
     status_code: 200
     timeout: 30
   register: json_response
-  until: json_response.json.0.status.ready == true
+  until: json_response is defined and json_response.json.0.status.ready == true
   retries: 20
   delay: 30
 
