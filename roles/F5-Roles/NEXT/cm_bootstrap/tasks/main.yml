@@ -3,7 +3,7 @@
 
 - name: Auth BIG-IP Next CM API
   ansible.builtin.uri:
-    url: https://{{ cm_mgmt_ip }}/api/login
+    url: https://{{ cm_mgmt_ip[:-3] }}/api/login
     method: POST
     headers:
       Content-Type: application/json
@@ -30,7 +30,7 @@
 
 - name: Check Node Status
   ansible.builtin.uri:
-    url: https://{{ cm_mgmt_ip }}/api/v1/system/infra/nodes
+    url: https://{{ cm_mgmt_ip[:-3] }}/api/v1/system/infra/nodes
     method: GET
     headers:
       Authorization: "Bearer {{ bigip_next_cm_token }}"
@@ -50,7 +50,7 @@
 
 - name: Bootstrap
   ansible.builtin.uri:
-    url: https://{{ cm_mgmt_ip }}/api/v1/system/infra/bootstrap
+    url: https://{{ cm_mgmt_ip[:-3] }}/api/v1/system/infra/bootstrap
     method: POST
     headers:
       Content-Type: application/json
