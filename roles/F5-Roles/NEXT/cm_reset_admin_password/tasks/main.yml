@@ -3,7 +3,7 @@
 
 - name: Reset default password for admin user
   ansible.builtin.uri:
-    url: https://{{ cm_mgmt_ip }}/api/change-password
+    url: https://{{ cm_mgmt_ip[:-3] }}/api/change-password
     method: POST
     headers:
       Content-Type: application/json
