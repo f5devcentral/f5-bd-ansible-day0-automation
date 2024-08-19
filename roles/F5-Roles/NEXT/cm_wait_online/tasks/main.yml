@@ -3,7 +3,7 @@
 
 - name: Check if BIG-IP Next Central Manager instance is available (HTTPS responding 405 on /api/login)
   ansible.builtin.uri:
-    url: https://{{ cm_mgmt_ip[:-3]  }}/api/login
+    url: https://{{ cm_mgmt_ip[:-3] }}/api/login
     method: GET
     status_code: 200
     validate_certs: false
