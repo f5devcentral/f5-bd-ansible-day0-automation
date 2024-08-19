@@ -5,9 +5,9 @@
   ansible.builtin.uri:
     url: https://{{ cm_mgmt_ip[:-3] }}/api/login
     method: GET
-    status_code: 200
+    status_code: 400
     validate_certs: false
-  until: json_response.status == 200
+  until: json_response.status == 400
   retries: 50
   delay: 30
   register: json_response
