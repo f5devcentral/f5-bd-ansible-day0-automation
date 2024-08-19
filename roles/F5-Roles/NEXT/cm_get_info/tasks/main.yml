@@ -1,9 +1,9 @@
 ---
 # tasks insttall Declaritive Onboarding Latest
 
-- name: Change Communication
-  ansible.builtin.set_fact:
-    ansible_connection: httpapi
+# - name: Change Communication
+#   ansible.builtin.set_fact:
+#     ansible_connection: httpapi
 
 - name: Get ALL Info from NEXT CM
   f5networks.next.cm_device_info:
@@ -11,6 +11,6 @@
       - all
   register: next_output
 
-
-- debug:
+- name: Debug Information from Next CM
+  ansbile.builtin.debug:
     var: next_output

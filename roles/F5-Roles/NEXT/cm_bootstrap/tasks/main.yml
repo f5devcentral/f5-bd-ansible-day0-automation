@@ -1,0 +1,93 @@
+---
+# tasks insttall Declaritive Onboarding Latest
+
+- name: Auth BIG-IP Next CM API
+  ansible.builtin.uri:
+    url: https://{{ cm_mgmt_ip }}/api/login
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+          "username": "admin",
+          "password": "{{ cm_password }}"
+      }
+    body_format: json
+    timeout: 60
+    status_code: 200
+    validate_certs: false
+  register: bigip_next_cm_token
+  retries: 30
+  delay: 30
+
+- name: Set the BIG-IP Next CM token
+  ansible.builtin.set_fact:
+    bigip_next_cm_token: "{{ bigip_next_cm_token.json.access_token }}"
+
+- name: Debug - Token
+  ansible.builtin.debug:
+    var: bigip_next_cm_token
+
+- name: Check Node Status
+  ansbile.builtin.uri:
+    url: https://{{ cm_mgmt_ip }}/api/v1/system/infra/nodes
+    method: GET
+    headers:
+      Authorization: "Bearer {{ bigip_next_cm_token }}"
+    return_content: true
+    body_format: json
+    validate_certs: false
+    status_code: 200
+    timeout: 30
+  register: json_response
+  until: json_response.json.0.status.ready == true
+  retries: 20
+  delay: 30
+
+- name: Debug Node Status
+  ansible.builtin.debug:
+    var: json_response
+
+- name: Bootstrap
+  ansible.builtin.uri:
+    url: https://{{ cm_mgmt_ip }}/api/v1/system/infra/bootstrap
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ bigip_next_cm_token }}"
+    timeout: 60
+    status_code: 202
+    validate_certs: false
+  until: json_response.status == 202
+  retries: 50
+  delay: 30
+  register: json_response
+
+- name: Debug Bootstrap Response
+  ansible.builtin.debug:
+    var: json_response
+
+- name: Pause Timer 30 seconds
+  ansible.builtin.pause:
+    seconds: 30
+
+- name: Check Deployment Status
+  ansible.builtin.uri:
+    url: https://{{ cm_mgmt_ip }}/api/v1/system/infra/bootstrap
+    method: GET
+    headers:
+      Authorization: "Bearer {{ bigip_next_cm_token }}"
+    return_content: true
+    body_format: json
+    validate_certs: false
+    status_code: 200
+    timeout: 30
+  register: json_response
+  until: json_response.json.status == "COMPLETED"
+  retries: 40
+  delay: 30
+  ignore_errors: true
+
+- name: Debug Deployment Status
+  ansible.builtin.debug:
+    var: json_response
