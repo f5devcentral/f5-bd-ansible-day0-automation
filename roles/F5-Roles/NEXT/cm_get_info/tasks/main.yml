@@ -12,5 +12,5 @@
   register: next_output
 
 - name: Debug Information from Next CM
-  ansbile.builtin.debug:
+  ansible.builtin.debug:
     var: next_output
