@@ -12,8 +12,8 @@
     # - roles/vSphere-Roles/NEXT/cm_generate_cloud_init
     # - roles/vSphere-Roles/NEXT/cm_apply_cloud_init
     # - roles/vSphere-Roles/NEXT/cm_power_on_vm
-    - roles/F5-Roles/NEXT/cm_wait_online
-    - roles/F5-Roles/NEXT/cm_reset_admin_password
+    # - roles/F5-Roles/NEXT/cm_wait_online
+    # - roles/F5-Roles/NEXT/cm_reset_admin_password
     - roles/F5-Roles/NEXT/cm_bootstrap
 
 
