@@ -29,7 +29,7 @@
     var: bigip_next_cm_token
 
 - name: Check Node Status
-  ansbile.builtin.uri:
+  ansible.builtin.uri:
     url: https://{{ cm_mgmt_ip }}/api/v1/system/infra/nodes
     method: GET
     headers:
