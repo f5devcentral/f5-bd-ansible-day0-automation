@@ -109,7 +109,7 @@
         status_code: 200
         timeout: 30
       register: json_response
-      until: (json_response.json.status is defined and json_response.json.status in ["COMPLETED", "FAILED", 401] 
+      until: (json_response.json.status is defined and json_response.json.status in ["COMPLETED", "FAILED", 401])
       delay: 30
       failed_when: (json_response.status == 401) or (json_response.json.status == "FAILED")
 
