@@ -1,0 +1,24 @@
+---
+# tasks file for Destroy-VM
+
+- name: Powering Off (Forced) F5 Central Manager VMs
+  vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: False
+    name: "{{ cm_hostname }}"
+    state: poweredoff
+    force: yes
+  delegate_to: localhost
+  ignore_errors: true
+
+- name: Destroy F5 Central Manager VMs
+  vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: False
+    name: "{{ cm_hostname }}"
+    state: absent
+  delegate_to: localhost
