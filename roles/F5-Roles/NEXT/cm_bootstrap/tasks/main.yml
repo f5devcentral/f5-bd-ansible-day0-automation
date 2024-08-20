@@ -114,7 +114,6 @@
       delay: 30
       failed_when: (json_response.status == 401)
 
-- name: Rescue Token Refresh
   rescue:
 
     - name: Refresh BIG-IP Next Auth Token
@@ -157,7 +156,6 @@
       delay: 30
       ignore_errors: true
 
-- name: Always Run
   always:
     
     - name: Debug Deployment Status
