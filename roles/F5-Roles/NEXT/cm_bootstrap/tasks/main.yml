@@ -112,7 +112,7 @@
     until: json_response.json.status is defined and json_response.json.status == "COMPLETED"
     retries: 40
     delay: 30
-    fails_when: (json_response.status == 401)
+    failed_when: (json_response.status == 401)
 
 - name: Rescue Token Refresh
   rescue:
