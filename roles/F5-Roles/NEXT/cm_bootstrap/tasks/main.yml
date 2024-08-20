@@ -160,4 +160,4 @@
     
     - name: Debug Deployment Status
       ansible.builtin.debug:
-      var: json_response
+        var: json_response
