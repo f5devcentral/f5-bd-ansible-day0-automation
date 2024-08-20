@@ -71,28 +71,28 @@
   ansible.builtin.pause:
     seconds: 30
 
-- name: Refresh BIG-IP Next Auth Token
-  ansible.builtin.uri:
-    url: https://{{ cm_mgmt_ip[:-3] }}/api/login
-    method: POST
-    headers:
-      Content-Type: application/json
-    body: |
-      {
-          "username": "admin",
-          "password": "{{ cm_password }}"
-      }
-    body_format: json
-    timeout: 60
-    status_code: 200
-    validate_certs: false
-  register: bigip_next_cm_token
-  retries: 30
-  delay: 30
+# - name: Refresh BIG-IP Next Auth Token
+#   ansible.builtin.uri:
+#     url: https://{{ cm_mgmt_ip[:-3] }}/api/login
+#     method: POST
+#     headers:
+#       Content-Type: application/json
+#     body: |
+#       {
+#           "username": "admin",
+#           "password": "{{ cm_password }}"
+#       }
+#     body_format: json
+#     timeout: 60
+#     status_code: 200
+#     validate_certs: false
+#   register: bigip_next_cm_token
+#   retries: 30
+#   delay: 30
 
-- name: Reset the BIG-IP Next CM token
-  ansible.builtin.set_fact:
-    bigip_next_cm_token: "{{ bigip_next_cm_token.json.access_token }}"
+# - name: Reset the BIG-IP Next CM token
+#   ansible.builtin.set_fact:
+#     bigip_next_cm_token: "{{ bigip_next_cm_token.json.access_token }}"
 
 - name: Check Deployment Status Block
   block: 
