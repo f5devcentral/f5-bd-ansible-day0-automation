@@ -97,69 +97,69 @@
 - name: Check Deployment Status Block
   block: 
 
-  - name: Check Deployment Status
-    ansible.builtin.uri:
-      url: https://{{ cm_mgmt_ip[:-3] }}/api/v1/system/infra/bootstrap
-      method: GET
-      headers:
-        Authorization: "Bearer {{ bigip_next_cm_token }}"
-      return_content: true
-      body_format: json
-      validate_certs: false
-      status_code: 200
-      timeout: 30
-    register: json_response
-    until: json_response.json.status is defined and json_response.json.status == "COMPLETED"
-    retries: 40
-    delay: 30
-    failed_when: (json_response.status == 401)
+    - name: Check Deployment Status
+      ansible.builtin.uri:
+        url: https://{{ cm_mgmt_ip[:-3] }}/api/v1/system/infra/bootstrap
+        method: GET
+        headers:
+          Authorization: "Bearer {{ bigip_next_cm_token }}"
+        return_content: true
+        body_format: json
+        validate_certs: false
+        status_code: 200
+        timeout: 30
+      register: json_response
+      until: json_response.json.status is defined and json_response.json.status == "COMPLETED"
+      retries: 40
+      delay: 30
+      failed_when: (json_response.status == 401)
 
 - name: Rescue Token Refresh
   rescue:
 
-  - name: Refresh BIG-IP Next Auth Token
-    ansible.builtin.uri:
-      url: https://{{ cm_mgmt_ip[:-3] }}/api/login
-      method: POST
-      headers:
-        Content-Type: application/json
-      body: |
-        {
-            "username": "admin",
-            "password": "{{ cm_password }}"
-        }
-      body_format: json
-      timeout: 60
-      status_code: 200
-      validate_certs: false
-    register: bigip_next_cm_token
-    retries: 30
-    delay: 30
+    - name: Refresh BIG-IP Next Auth Token
+      ansible.builtin.uri:
+        url: https://{{ cm_mgmt_ip[:-3] }}/api/login
+        method: POST
+        headers:
+          Content-Type: application/json
+        body: |
+          {
+              "username": "admin",
+              "password": "{{ cm_password }}"
+          }
+        body_format: json
+        timeout: 60
+        status_code: 200
+        validate_certs: false
+      register: bigip_next_cm_token
+      retries: 30
+      delay: 30
 
-  - name: Reset the BIG-IP Next CM token
-    ansible.builtin.set_fact:
-      bigip_next_cm_token: "{{ bigip_next_cm_token.json.access_token }}"
+    - name: Reset the BIG-IP Next CM token
+      ansible.builtin.set_fact:
+        bigip_next_cm_token: "{{ bigip_next_cm_token.json.access_token }}"
 
-  - name: Check Deployment Status
-    ansible.builtin.uri:
-      url: https://{{ cm_mgmt_ip[:-3] }}/api/v1/system/infra/bootstrap
-      method: GET
-      headers:
-        Authorization: "Bearer {{ bigip_next_cm_token }}"
-      return_content: true
-      body_format: json
-      validate_certs: false
-      status_code: 200
-      timeout: 30
-    register: json_response
-    until: json_response.json.status is defined and json_response.json.status == "COMPLETED"
-    retries: 40
-    delay: 30
-    ignore_errors: true
+    - name: Check Deployment Status
+      ansible.builtin.uri:
+        url: https://{{ cm_mgmt_ip[:-3] }}/api/v1/system/infra/bootstrap
+        method: GET
+        headers:
+          Authorization: "Bearer {{ bigip_next_cm_token }}"
+        return_content: true
+        body_format: json
+        validate_certs: false
+        status_code: 200
+        timeout: 30
+      register: json_response
+      until: json_response.json.status is defined and json_response.json.status == "COMPLETED"
+      retries: 40
+      delay: 30
+      ignore_errors: true
 
 - name: Always Run
   always:
-  
-  - name: Debug Deployment Status
-    ansible.builtin.debug:
-    var: json_response
+    
+    - name: Debug Deployment Status
+      ansible.builtin.debug:
+      var: json_response
