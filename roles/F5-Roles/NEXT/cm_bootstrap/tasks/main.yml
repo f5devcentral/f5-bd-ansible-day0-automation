@@ -106,7 +106,7 @@
     status_code: 200
     timeout: 30
   register: json_response
-  until: json_response is defined and json_response.json.status == "COMPLETED"
+  until: json_response.json.status is defined and json_response.json.status == "COMPLETED"
   retries: 40
   delay: 30
   ignore_errors: true
