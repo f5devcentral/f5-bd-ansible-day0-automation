@@ -1,0 +1,4 @@
+---
+
+ - name: Create Cloud-init for VM
+   include_tasks: cm_generate_cloud_init.yml

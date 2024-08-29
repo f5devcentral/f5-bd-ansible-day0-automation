@@ -1,0 +1,19 @@
+---
+
+  - name: Deploy OVA
+    community.vmware.vmware_deploy_ovf:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      datacenter: "{{ datacenter_name }}"
+      cluster: "{{ cluster_name }}"
+      datastore: "{{ datastore }}"
+      resource_pool: "{{ resource_pool_name }}"
+      validate_certs: no
+      name: "{{ cm_hostname }}"
+      networks: "{u'Management Network':u'{{ cm_vsphere_mgmt_network }}'}"
+      power_on: no
+      ovf: "{{ cm_ova }}"
+      wait_for_ip_address: yes
+    delegate_to: localhost
+

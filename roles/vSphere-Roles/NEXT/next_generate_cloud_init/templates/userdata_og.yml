@@ -1,0 +1,42 @@
+#cloud-config
+
+chpasswd:
+  users: 
+  - name: admin
+    password: "{{ next_password | password_hash }}"
+    type: hash
+  expire: False
+f5_bigip_next:
+  admin_password: "{{ next_password }}"
+  setup:
+    ntp: "{{ ntp_servers }}"
+    vlans:
+      -
+        name: internal-trunk
+        selfip: "{{ next_trunk_internal_ip }}"
+        interface: 1.1
+        tag: 192
+      -
+        name: external-trunk
+        selfip: "{{ next_trunk_external_ip }}"
+        interface: 1.2
+        tag: 20
+  onboard:
+    platform:
+      hostname: "{{ next_hostname }}"
+      platformType: ve
+system_info:
+  default_user:
+    name: ubuntu
+    lock_passwd: false
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+timezone: UTC
+users:
+  - name: dasaint
+    passwd: "{{ next_password | password_hash }}"
+    shell: /bin/bash
+    lock_passwd: false
+#    ssh_pwauth: True
+#    chpasswd: { expire: False }
+    groups: users, admin
+    sudo: ALL=(ALL) NOPASSWD:ALL

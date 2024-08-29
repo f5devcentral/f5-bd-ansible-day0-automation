@@ -16,7 +16,7 @@
 
 - hosts: dynamic_f5_vms
   connection: local
-  gather_facts: false
+  gather_facts: true
   roles:
     - roles/F5-Roles/BIG_IP/wait_for_bigip_startup
     - roles/F5-Roles/BIG_IP/install_as3

@@ -1,0 +1,4 @@
+---
+
+ - name: Provision VM from Template 
+   include_tasks: next_deploy_ova.yml

@@ -1,0 +1,30 @@
+---
+
+- name: Read file and modify with ansible variables
+  set_fact:
+    metadata: "{{ lookup('template','metadata.yml', split_lines=False)  | from_yaml}}"
+    userdata: "{{ lookup('template','userdata.yml', split_lines=False) | from_yaml}}"
+
+- debug:
+    var: metadata
+
+- debug:
+    var: userdata
+
+- name: re-encode metadata and userdata into base64
+  set_fact:
+    base64_metadata: "{{ metadata | to_nice_yaml | b64encode  }}"
+    base64_userdata: "I2Nsb3VkLWNvbmZpZyAK{{ userdata | to_nice_yaml | b64encode }}"
+
+- debug:
+    var: base64_userdata
+
+# - name: fix ending and add script
+#   set_fact:
+#     base64_userdata: "{{ base64_userdata [:-1] }}" 
+
+- debug:
+    var: base64_metadata
+
+- debug:
+    var: base64_userdata
