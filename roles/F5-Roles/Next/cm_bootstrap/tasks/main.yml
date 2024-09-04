@@ -1,5 +1,5 @@
 ---
-# tasks Onboarding of Next CM 
+# tasks Onboarding of Next CM
 
 - name: Auth BIG-IP Next CM API
   ansible.builtin.uri:

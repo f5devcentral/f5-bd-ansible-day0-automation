@@ -6,6 +6,6 @@
   gather_facts: true
   roles:
     - roles/General-Roles/date_time
-    - roles/vSphere-Roles/NEXT/cm_teardown_cm_vms
+    - roles/vSphere-Roles/Next/cm_teardown_cm_vms
 #    - roles/vSphere-Roles/destroy_resource_pool
     - roles/General-Roles/date_time

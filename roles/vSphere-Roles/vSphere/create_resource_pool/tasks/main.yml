@@ -12,5 +12,3 @@
       resource_pool: "{{resource_pool_name}}"
       state: present
     delegate_to: localhost
-
-

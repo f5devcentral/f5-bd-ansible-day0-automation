@@ -15,24 +15,18 @@
     - roles/F5-Roles/Next/cm_wait_online
     - roles/F5-Roles/Next/cm_reset_admin_password
     - roles/F5-Roles/Next/cm_bootstrap
+    - roles/General-Roles/date_time
 
-
-#Deploy OVA
-- hosts: next-cm
-  connection: httpapi
-  gather_facts: true
-  vars:
-    ansible_httpapi_username: "{{ ansible_user }}"
-    ansible_httpapi_password: "{{ ansible_password }}"
-    ansible_httpapi_use_ssl: yes
-    ansible_httpapi_validate_certs: no
-    ansible_network_os: f5networks.next.cm
-  roles:
-    - roles/F5-Roles/Next/cm_get_info
-
-#Deploy Next - End Time
+#Deploy Next Instance
 - hosts: vCenter
   connection: local
   gather_facts: true
   roles:
+    - roles/General-Roles/date_time
+    - roles/vSphere-Roles/vSphere/create_resource_pool
+    - roles/vSphere-Roles/Next/next_deploy_ova
+    - roles/vSphere-Roles/Next/next_take_snapshot
+    - roles/vSphere-Roles/Next/next_generate_cloud_init
+    - roles/vSphere-Roles/Next/next_apply_cloud_init
+    - roles/vSphere-Roles/Next/next_power_on_vm
     - roles/General-Roles/date_time
