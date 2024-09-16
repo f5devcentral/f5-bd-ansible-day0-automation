@@ -1,0 +1,15 @@
+---
+
+#Deploy Next Instance
+- hosts: vCenter
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
+    - roles/vSphere-Roles/vSphere/create_resource_pool
+    - roles/vSphere-Roles/Next/next_deploy_ova
+    - roles/vSphere-Roles/Next/next_take_snapshot
+    - roles/vSphere-Roles/Next/next_generate_cloud_init
+    - roles/vSphere-Roles/Next/next_apply_cloud_init
+    - roles/vSphere-Roles/Next/next_power_on_vm
+    - roles/General-Roles/date_time

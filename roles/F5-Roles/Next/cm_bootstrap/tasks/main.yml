@@ -1,5 +1,5 @@
 ---
-# tasks Onboarding of Next CM 
+# tasks Onboarding of Next CM
 
 - name: Auth BIG-IP Next CM API
   ansible.builtin.uri:
@@ -48,6 +48,33 @@
   ansible.builtin.debug:
     var: json_response
 
+- name: Pause Timer 300 seconds (5 Minutes) - Let Node Be Fully Ready
+  ansible.builtin.pause:
+    seconds: 300
+
+- name: Auth BIG-IP Next CM API
+  ansible.builtin.uri:
+    url: https://{{ cm_mgmt_ip[:-3] }}/api/login
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+          "username": "admin",
+          "password": "{{ cm_password }}"
+      }
+    body_format: json
+    timeout: 60
+    status_code: 200
+    validate_certs: false
+  register: bigip_next_cm_token
+  retries: 30
+  delay: 30
+
+- name: Set the BIG-IP Next CM token
+  ansible.builtin.set_fact:
+    bigip_next_cm_token: "{{ bigip_next_cm_token.json.access_token }}"
+
 - name: Bootstrap
   ansible.builtin.uri:
     url: https://{{ cm_mgmt_ip[:-3] }}/api/v1/system/infra/bootstrap
@@ -67,35 +94,35 @@
   ansible.builtin.debug:
     var: json_response
 
-- name: Pause Timer 30 seconds
+- name: Pause Timer 300 seconds (5 Minutes) - Let Bootstrap Trigger and be Ready
   ansible.builtin.pause:
-    seconds: 30
+    seconds: 300
 
-# - name: Refresh BIG-IP Next Auth Token
-#   ansible.builtin.uri:
-#     url: https://{{ cm_mgmt_ip[:-3] }}/api/login
-#     method: POST
-#     headers:
-#       Content-Type: application/json
-#     body: |
-#       {
-#           "username": "admin",
-#           "password": "{{ cm_password }}"
-#       }
-#     body_format: json
-#     timeout: 60
-#     status_code: 200
-#     validate_certs: false
-#   register: bigip_next_cm_token
-#   retries: 30
-#   delay: 30
+- name: Refresh BIG-IP Next Auth Token
+  ansible.builtin.uri:
+    url: https://{{ cm_mgmt_ip[:-3] }}/api/login
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+          "username": "admin",
+          "password": "{{ cm_password }}"
+      }
+    body_format: json
+    timeout: 60
+    status_code: 200
+    validate_certs: false
+  register: bigip_next_cm_token
+  retries: 30
+  delay: 30
 
-# - name: Reset the BIG-IP Next CM token
-#   ansible.builtin.set_fact:
-#     bigip_next_cm_token: "{{ bigip_next_cm_token.json.access_token }}"
+- name: Reset the BIG-IP Next CM token
+  ansible.builtin.set_fact:
+    bigip_next_cm_token: "{{ bigip_next_cm_token.json.access_token }}"
 
 - name: Check Deployment Status Block
-  block: 
+  block:
 
     - name: Check Deployment Status
       ansible.builtin.uri:
@@ -157,7 +184,7 @@
       failed_when: (json_response.status == 401) or (json_response.json.status == "FAILED")
 
   always:
-    
+
     - name: Debug Deployment Status
       ansible.builtin.debug:
         var: json_response

@@ -1,0 +1,16 @@
+---
+# tasks insttall Declaritive Onboarding Latest
+
+- name: Pause Wait 5 Minutes (300 Seconds) for Next Instance to be Ready
+  ansible.builtin.pause:
+    seconds: 300
+
+- name: Add Next Instance to Central Manager
+  f5networks.next.cm_next_discover:
+    device_ip: "{{ next_mgmt_ip[:-3] }}"
+    device_port: 5443
+    device_user: "admin"
+    device_password: "{{ cm_password }}"
+    mgmt_user: 'admin-cm'
+    mgmt_password: "{{ cm_password }}"
+    timeout: 600

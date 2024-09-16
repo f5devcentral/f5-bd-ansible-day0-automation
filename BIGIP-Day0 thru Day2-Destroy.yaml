@@ -20,4 +20,4 @@
   roles:
     - roles/vSphere-Roles/BIG_IP/destroy_f5_vms
     - roles/vSphere-Roles/BIG_IP/destroy_f5_master_vms
-    - roles/vSphere-Roles/destroy_resource_pool
+    - roles/vSphere-Roles/vSphere/destroy_resource_pool

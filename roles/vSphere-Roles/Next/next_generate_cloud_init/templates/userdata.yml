@@ -31,12 +31,3 @@ system_info:
     lock_passwd: false
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
 timezone: UTC
-users:
-  - name: dasaint
-    passwd: "{{ next_password | password_hash }}"
-    shell: /bin/bash
-    lock_passwd: false
-#    ssh_pwauth: True
-#    chpasswd: { expire: False }
-    groups: users, admin
-    sudo: ALL=(ALL) NOPASSWD:ALL

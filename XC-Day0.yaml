@@ -8,7 +8,7 @@
   roles:
     - roles/General-Roles/date_time
     - roles/F5-Roles/XC/xc_create_token
-    - roles/vSphere-Roles/create_resource_pool
+    - roles/vSphere-Roles/vSphere/create_resource_pool
     - roles/vSphere-Roles/XC/deploy_xc_ova
     - roles/F5-Roles/XC/xc_get_registration_state
     - roles/F5-Roles/XC/xc_accept_registration
