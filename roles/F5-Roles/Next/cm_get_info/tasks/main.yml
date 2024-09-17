@@ -5,6 +5,12 @@
 #   ansible.builtin.set_fact:
 #     ansible_connection: httpapi
 
+- debug:
+    var: cm_user
+
+- debug:
+    var: cm_password
+
 - name: Get ALL Info from NEXT CM
   f5networks.next.cm_device_info:
     gather_subset:
