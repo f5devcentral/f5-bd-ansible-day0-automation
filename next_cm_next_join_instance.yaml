@@ -12,5 +12,6 @@
     ansible_network_os: f5networks.next.cm
 
   roles:
-    #- roles/General-Roles/pause_5_min
+    #- roles/General-Roles/pause_5_min.
+    - roles/F5-Roles/Next/cm_get_info
     - roles/F5-Roles/Next/cm_next_instance_join
