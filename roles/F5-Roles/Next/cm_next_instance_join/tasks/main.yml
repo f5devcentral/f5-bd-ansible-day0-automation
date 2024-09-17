@@ -10,3 +10,4 @@
     mgmt_user: 'admin-cm'
     mgmt_password: "{{ cm_password }}"
     timeout: 600
+    accept_untrusted: true
