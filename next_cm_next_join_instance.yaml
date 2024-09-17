@@ -6,7 +6,7 @@
   gather_facts: true
   vars:
     ansible_httpapi_username: "admin"
-    ansible_httpapi_password: "admin"
+    ansible_httpapi_password: "Ansible123!"
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
