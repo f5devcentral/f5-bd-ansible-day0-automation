@@ -5,7 +5,7 @@
   connection: httpapi
   gather_facts: true
   vars:
-    ansible_httpapi_username: "{{ ansible_user }}"
+    ansible_httpapi_username: "{{ cm_user }}"
     ansible_httpapi_password: "{{ cm_password }}"
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
