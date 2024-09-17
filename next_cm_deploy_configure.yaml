@@ -23,7 +23,7 @@
   gather_facts: true
   vars:
     ansible_httpapi_username: "{{ ansible_user }}"
-    ansible_httpapi_password: "{{ cm_password }}"
+    ansible_httpapi_password: "{{ ansible_password }}"
     ansible_httpapi_use_ssl: yes
     ansible_httpapi_validate_certs: no
     ansible_network_os: f5networks.next.cm
