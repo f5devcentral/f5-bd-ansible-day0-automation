@@ -1,23 +1,6 @@
 ---
 
-#Deploy CM Instance
-- hosts: vCenter
-  connection: local
-  gather_facts: true
-  roles:
-    - roles/General-Roles/date_time
-    - roles/vSphere-Roles/vSphere/create_resource_pool
-    - roles/vSphere-Roles/Next/cm_deploy_ova
-    - roles/vSphere-Roles/Next/cm_take_snapshot
-    - roles/vSphere-Roles/Next/cm_generate_cloud_init
-    - roles/vSphere-Roles/Next/cm_apply_cloud_init
-    - roles/vSphere-Roles/Next/cm_power_on_vm
-    - roles/F5-Roles/Next/cm_wait_online
-    - roles/F5-Roles/Next/cm_reset_admin_password
-    - roles/F5-Roles/Next/cm_bootstrap
-    - roles/General-Roles/date_time
-
-#Deploy Next Instance
+#Deploy Next and CM Instance
 - hosts: vCenter
   connection: local
   gather_facts: true
@@ -25,8 +8,32 @@
     - roles/General-Roles/date_time
     - roles/vSphere-Roles/vSphere/create_resource_pool
     - roles/vSphere-Roles/Next/next_deploy_ova
-    - roles/vSphere-Roles/Next/next_take_snapshot
+#    - roles/vSphere-Roles/Next/next_take_snapshot
     - roles/vSphere-Roles/Next/next_generate_cloud_init
     - roles/vSphere-Roles/Next/next_apply_cloud_init
     - roles/vSphere-Roles/Next/next_power_on_vm
+    - roles/vSphere-Roles/Next/cm_deploy_ova
+#    - roles/vSphere-Roles/Next/cm_take_snapshot
+    - roles/vSphere-Roles/Next/cm_generate_cloud_init
+    - roles/vSphere-Roles/Next/cm_apply_cloud_init
+    - roles/vSphere-Roles/Next/cm_power_on_vm
+    - roles/F5-Roles/Next/cm_wait_online
+    - roles/F5-Roles/Next/cm_reset_admin_password
+    - roles/F5-Roles/Next/cm_bootstrap
+
+
+- name: BIG-IP Next Automation Join Next Instance to CM
+  hosts: next-cm
+  connection: httpapi
+  gather_facts: true
+  vars:
+    ansible_user: "admin"
+    ansible_httpapi_password: '{{ cm_password }}'
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_network_os: f5networks.next.cm
+
+  roles:
+    - roles/F5-Roles/Next/cm_next_instance_join
     - roles/General-Roles/date_time
