@@ -12,9 +12,9 @@
 
 - name: Import Certificate/Key to Next
   f5networks.next.cm_ssl_certificate_import:
-    name: App2
-    cert: "{{ lookup('file', 'new-app-demo.crt') }}"
-    key: "{{ lookup('file', 'new-app-demo.key') }}"
+    name: App2-Certificate
+    cert: "{{ role_path }}/files/new-app-demo.crt }}"
+    key: "{{ role_path }}/files/new-app-demo.key }}"
     type: PEM
     update_cert: true
     update_key: true
