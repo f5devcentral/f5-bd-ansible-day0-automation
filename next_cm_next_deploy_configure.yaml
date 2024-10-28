@@ -42,4 +42,5 @@
 # Join Instance to CM
     - roles/F5-Roles/Next/cm_next_instance_join
     - roles/F5-Roles/Next/cm_app_delivery_http
+    - roles/F5-Roles/Next/cm_app_delivery_https
     - roles/General-Roles/date_time
