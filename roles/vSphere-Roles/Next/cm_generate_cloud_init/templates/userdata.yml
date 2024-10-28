@@ -1,17 +1,4 @@
 #cloud-config
-
-chpasswd:
-  users: 
-  - name: admin
-    password: "{{ cm_password | password_hash }}"
-    type: hash
-  expire: False
-system_info:
-  default_user:
-    name: ubuntu
-    lock_passwd: false
-    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
-timezone: UTC
 users:
   - name: dasaint
     passwd: "{{ cm_password | password_hash }}"
@@ -19,19 +6,23 @@ users:
     lock_passwd: false
     groups: users, admin
     sudo: ALL=(ALL) NOPASSWD:ALL
-runcmd:
-  - [sudo, -u, admin, bash, -c, "cat /home/admin/setup.txt | setup"]
 write_files:
-  - path: /home/admin/setup.txt
-    permissions: '0644'
+  - path: /home/admin/myinstall.sh
+    permissions: '0755'
     owner: admin:admin
     content: |
-      {{ cm_hostname }}
-      n
-      {{ ntp_servers[0] }}
-      {{ ntp_servers[1] }}
-      100.75.0.0/16
-      100.76.0.0/14
-      n
-      y
-      y
+      #!/bin/bash
+      until [ -f /var/lib/f5/central-manager/node-setup-complete ]
+      do
+        sleep 5
+      done
+      echo "ready"
+      /opt/cm-bundle/cm install
+runcmd:
+  - [sudo, -u, admin, /home/admin/myinstall.sh]
+chpasswd:
+  users: 
+  - name: admin
+    password: "{{ cm_password | password_hash }}"
+    type: hash
+  expire: False

@@ -1,33 +1,56 @@
 #cloud-config
 
-chpasswd:
-  users: 
-  - name: admin
-    password: "{{ next_password | password_hash }}"
-    type: hash
-  expire: False
 f5_bigip_next:
   admin_password: "{{ next_password }}"
-  setup:
-    ntp: ['0.pool.ntp.org']
-    vlans:
-      -
-        name: internal-trunk
-        selfip: "{{ next_trunk_internal_ip }}"
-        interface: 1.1
-        tag: 192
-      -
-        name: external-trunk
-        selfip: "{{ next_trunk_external_ip }}"
-        interface: 1.1
-        tag: 20
   onboard:
+    l1Networks:
+    - l1Link:
+        linkType: Interface
+        name: '1.1'
+      name: internal-vlan-interface
+      vlans:
+      - name: internal-vlan
+        selfIps:
+        - address: "{{ next_trunk_internal_ip }}"
+        tag: 192
+    - l1Link:
+        linkType: Interface
+        name: '1.2'
+      name: external-vlan-interface
+      vlans:
+      - name: external-vlan
+        selfIps:
+        - address: "{{ next_trunk_external_ip }}"
+        tag: 20
     platform:
       hostname: "{{ next_hostname }}"
+      ntpServers: "{{ ntp_servers }}"
       platformType: ve
-system_info:
-  default_user:
-    name: ubuntu
+write_files:
+  - path: /home/admin/password
+    permissions: '0600'
+    owner: admin:admin
+    encoding: b64
+    content: "{{ next_password | b64encode }}"
+runcmd:
+  - rm -f /etc/ssh/sshd_config.d/setup.conf
+  - systemctl restart ssh.service
+users: 
+  - name: admin
     lock_passwd: false
-    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
-timezone: UTC
+    primary_group: admin
+    groups: [sudo,admin]
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    password: "{{ next_password | password_hash }}"
+    type: hash
+chpasswd:
+  users: 
+    - name: admin
+      password: "{{ next_password | password_hash }}"
+      type: hash 
+  expire: false
+write_files:
+  - path: /etc/mbip/conf/values.yaml
+    encoding: base64
+    content: Z2xvYmFsOgogIGRlZmF1bHRUYWdzOgogICAgYWNjZXNzOiB0cnVlCiAgICBkbnM6IGZhbHNlCiAgICBkbnNWRTogZmFsc2UKICAgIGVmd0FjbDogZmFsc2UKICAgIGVmd0NHbmF0OiBmYWxzZQogICAgZWZ3SXBpOiBmYWxzZQogICAgZWZ3SXBzOiBmYWxzZQogICAgbHRtOiB0cnVlCiAgICBzc2xvOiBmYWxzZQogICAgd2FmOiB0cnVlCgogIHRhZ3M6CiAgICBhY2Nlc3M6IHRydWUKICAgIGRuczogZmFsc2UKICAgIGRuc1ZFOiBmYWxzZQogICAgZWZ3QWNsOiBmYWxzZQogICAgZWZ3Q0duYXQ6IGZhbHNlCiAgICBlZndJcGk6IGZhbHNlCiAgICBlZndJcHM6IGZhbHNlCiAgICBsdG06IHRydWUKICAgIHNzbG86IGZhbHNlCiAgICB3YWY6IHRydWUKCnRhZ3M6CiAgYWNjZXNzOiB0cnVlCiAgZG5zOiBmYWxzZQogIGRuc1ZFOiBmYWxzZQogIGVmd0FjbDogZmFsc2UKICBlZndDR25hdDogZmFsc2UKICBlZndJcGk6IGZhbHNlCiAgZWZ3SXBzOiBmYWxzZQogIGx0bTogdHJ1ZQogIHNzbG86IGZhbHNlCiAgd2FmOiB0cnVlCg==
