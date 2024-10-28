@@ -1,0 +1,115 @@
+{
+  "class": "ADC",
+  "controls": {
+    "class": "Controls",
+    "logLevel": "error"
+  },
+  "id": "http-canonical-cm-example-template",
+  "label": "Central Manager Example Template",
+  "remark": "",
+  "schemaVersion": "3.43.0",
+  "tenanttTNwsfBoTye1rwYz2mxIfA": {
+    "class": "Tenant",
+    "{{ as3_tenant_name2 }}": {
+      "{{ as3_tenant_name2 }}-Pool": {
+        "allowNetworks": [
+          {
+            "bigip": "Default"
+          }
+        ],
+        "class": "Pool",
+        "loadBalancingMode": "round-robin",
+        "members": [
+          {
+            "ratio": 10,
+            "servers": [
+              {
+                  "address": "192.170.13.111",
+                  "name": "web-node-1"
+              },
+              {
+                  "address": "192.170.13.112",
+                  "name": "web-node-2"
+              },
+              {
+                  "address": "192.170.13.113",
+                  "name": "web-node-3"
+              },
+              {
+                  "address": "192.170.13.114",
+                  "name": "web-node-4"
+              },
+              {
+                  "address": "192.170.13.115",
+                  "name": "web-node-5"
+              }
+            ],
+          "servicePort": 443
+          }
+        ],
+        "monitors": [
+          {
+            "use": "http"
+          }
+        ]
+      },
+      "{{ as3_tenant_name2 }}-Pool_service": {
+        "class": "Service_Pool",
+        "pool": "{{ as3_tenant_name2 }}-Pool"
+      },
+      "{{ as3_tenant_name2 }}-VIP": {
+        "class": "Service_HTTPS",
+        "mirroring": "L4",
+        "persistenceMethods": [],
+        "pool": "{{ as3_tenant_name2 }}-Pool",
+        "serverTLS": "pTLSServer_Local_App2",
+        "snat": "auto",
+        "virtualAddresses": [
+          "192.170.13.129"
+        ],
+        "virtualPort": 443
+      },
+      "class": "Application",
+      "http": {
+        "class": "Monitor",
+        "interval": 5,
+        "monitorType": "http",
+        "receive": ".*",
+        "receiveDown": "",
+        "send": "GET / HTTP/1.0\r\n\r\n",
+        "timeout": 16
+      },
+      "pTLSServer_Local_App2": {
+        "certificates": [
+          {
+            "certificate": "tlsserver_local_cert_App2-Cert_App2_ecda"
+          }
+        ],
+        "ciphers": "DEFAULT",
+        "class": "TLS_Server",
+        "tls1_1Enabled": false,
+        "tls1_2Enabled": true,
+        "tls1_3Enabled": false
+      },
+      "tcp": {
+        "class": "Monitor",
+        "interval": 5,
+        "monitorType": "tcp",
+        "receive": ".*",
+        "receiveDown": "",
+        "send": "",
+        "timeout": 16
+      },
+      "tlsserver_local_cert_Use-Case-2-App-Cert_App2_ecda": {
+        "certificate": {
+          "cm": "App2.crt"
+        },
+        "class": "Certificate",
+        "privateKey": {
+          "cm": "App2.pem"
+        }
+      }
+    },
+    "class": "Tenant"
+  }
+}
