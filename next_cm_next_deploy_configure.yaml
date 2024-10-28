@@ -23,7 +23,7 @@
     - roles/F5-Roles/Next/cm_wait_online
     - roles/F5-Roles/Next/cm_reset_admin_password
     - roles/F5-Roles/Next/cm_bootstrap_30
-    - roles/F5-Roles/Next/cm_dyn_group_ova
+    - roles/vSphere-Roles/Next/cm_dyn_group_ova
 
 - name: BIG-IP Next Automation Join Next Instance to CM
   hosts: next_cm_dynamic
