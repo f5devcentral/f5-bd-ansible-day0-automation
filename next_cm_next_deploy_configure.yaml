@@ -22,22 +22,22 @@
 # Configure CM Instance with Bootstrap and Admin Passwords 
     - roles/F5-Roles/Next/cm_wait_online
     - roles/F5-Roles/Next/cm_reset_admin_password
-    - roles/F5-Roles/Next/cm_bootstrap
+    - roles/F5-Roles/Next/cm_bootstrap_30
+    - roles/F5-Roles/Next/cm_dyn_group_ova
 
+- name: BIG-IP Next Automation Join Next Instance to CM
+  hosts: next_cm_dynamic
+  connection: httpapi
+  gather_facts: true
+  vars:
+    ansible_user: "admin"
+    ansible_httpapi_password: '{{ cm_password }}'
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_network_os: f5networks.next.cm
 
-# - name: BIG-IP Next Automation Join Next Instance to CM
-#   hosts: next-cm
-#   connection: httpapi
-#   gather_facts: true
-#   vars:
-#     ansible_user: "admin"
-#     ansible_httpapi_password: '{{ cm_password }}'
-#     ansible_httpapi_port: 443
-#     ansible_httpapi_use_ssl: true
-#     ansible_httpapi_validate_certs: false
-#     ansible_network_os: f5networks.next.cm
-
-#   roles:
-# # Join Instance to CM
-#     - roles/F5-Roles/Next/cm_next_instance_join
-#     - roles/General-Roles/date_time
+  roles:
+# Join Instance to CM
+    - roles/F5-Roles/Next/cm_next_instance_join
+    - roles/General-Roles/date_time

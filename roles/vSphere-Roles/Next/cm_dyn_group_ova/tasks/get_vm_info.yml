@@ -1,0 +1,9 @@
+---
+
+- name: Add Central Manager to Dynamic next_cm_dynamic Group
+  add_host:
+    hostname="{{ cm_hostname }}"
+    ansible_host="{{ cm_mgmt_ip [:-3] }}"
+    ansible_user="{{ cm_user }}"
+    ansible_password="{{ cm_password }}"
+    groups=next_cm_dynamic
