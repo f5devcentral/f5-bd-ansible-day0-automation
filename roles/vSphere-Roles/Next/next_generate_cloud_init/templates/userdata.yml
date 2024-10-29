@@ -1,47 +1,36 @@
 #cloud-config
 
+chpasswd:
+  users: 
+  - name: admin
+    password: "{{ next_password | password_hash }}"
+    type: hash
+  expire: False
 f5_bigip_next:
   admin_password: "{{ next_password }}"
-  onboard:
+  setup:
+    ntp: ['0.pool.ntp.org']
     vlans:
       -
         name: internal-trunk
         selfip: "{{ next_trunk_internal_ip }}"
         interface: 1.1
-        tag: 0
+        tag: 192
       -
         name: external-trunk
         selfip: "{{ next_trunk_external_ip }}"
-        interface: 1.2
-        tag: 0
+        interface: 1.1
+        tag: 20
+  onboard:
     platform:
       hostname: "{{ next_hostname }}"
-      ntp: ['0.pool.ntp.org']
       platformType: ve
-write_files:
-  - path: /home/admin/password
-    permissions: '0600'
-    owner: admin:admin
-    encoding: b64
-    content: "{{ next_password | b64encode }}"
-runcmd:
-  - rm -f /etc/ssh/sshd_config.d/setup.conf
-  - systemctl restart ssh.service
-users: 
-  - name: admin
+system_info:
+  default_user:
+    name: ubuntu
     lock_passwd: false
-    primary_group: admin
-    groups: [sudo,admin]
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    shell: /bin/bash
-    password: "{{ next_password | password_hash }}"
-    type: hash
-chpasswd:
-  users: 
-    - name: admin
-      password: "{{ next_password | password_hash }}"
-      type: hash 
-  expire: false
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+timezone: UTC
 write_files:
   - path: /etc/mbip/conf/values.yaml
     encoding: base64
