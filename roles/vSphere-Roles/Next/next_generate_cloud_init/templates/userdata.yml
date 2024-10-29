@@ -15,12 +15,12 @@ f5_bigip_next:
         name: internal-trunk
         selfip: "{{ next_trunk_internal_ip }}"
         interface: 1.1
-        tag: 192
+        tag: 3013
       -
         name: external-trunk
         selfip: "{{ next_trunk_external_ip }}"
         interface: 1.1
-        tag: 20
+        tag: 3012
   onboard:
     platform:
       hostname: "{{ next_hostname }}"
