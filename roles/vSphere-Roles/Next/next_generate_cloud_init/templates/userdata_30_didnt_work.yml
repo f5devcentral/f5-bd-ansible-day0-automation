@@ -3,16 +3,24 @@
 f5_bigip_next:
   admin_password: "{{ next_password }}"
   onboard:
-    vlans:
-      -
-        name: internal-trunk
-        selfip: "{{ next_trunk_internal_ip }}"
-        interface: 1.1
+    l1Networks:
+    - l1Link:
+        linkType: Interface
+        name: '1.1'
+      name: internal-vlan-interface
+      vlans:
+      - name: internal-vlan
+        selfIps:
+        - address: "{{ next_trunk_internal_ip }}"
         tag: 192
-      -
-        name: external-trunk
-        selfip: "{{ next_trunk_external_ip }}"
-        interface: 1.1
+    - l1Link:
+        linkType: Interface
+        name: '1.2'
+      name: external-vlan-interface
+      vlans:
+      - name: external-vlan
+        selfIps:
+        - address: "{{ next_trunk_external_ip }}"
         tag: 20
     platform:
       hostname: "{{ next_hostname }}"
