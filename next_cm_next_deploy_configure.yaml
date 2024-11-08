@@ -6,6 +6,7 @@
   gather_facts: true
   roles:
     - roles/General-Roles/date_time
+    - roles/General-Roles/pause_5_min
     - roles/vSphere-Roles/vSphere/create_resource_pool
 # Deploy CM Instance and Power on/get Ready
     - roles/vSphere-Roles/Next/cm_deploy_ova
