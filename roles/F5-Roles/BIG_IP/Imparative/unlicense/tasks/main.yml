@@ -1,0 +1,7 @@
+---
+
+- name: Remove the license from the system
+  f5networks.f5_modules.bigip_device_license:
+    state: "absent"
+    provider: "{{provider}}"
+  delegate_to: localhost
