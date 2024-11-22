@@ -3,6 +3,7 @@
 - name: License BIG-IP using a key
   f5networks.f5_modules.bigip_device_license:
     license_key: "{{ license_node1 }}"
+    accept_eula: true
     provider: "{{ provider }}"
   when: "'1' in inventory_hostname"
   delegate_to: localhost
@@ -10,6 +11,7 @@
 - name: License BIG-IP using a key
   f5networks.f5_modules.bigip_device_license:
     license_key: "{{ license_node2 }}"
+    accept_eula: true
     provider: "{{ provider }}"
   when: "'2' in inventory_hostname"
   delegate_to: localhost
