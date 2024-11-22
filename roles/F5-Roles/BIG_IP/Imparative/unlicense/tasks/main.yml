@@ -1,7 +1,17 @@
 ---
 
-- name: Remove the license from the system
+- name: Revoke License BIG-IP Node 1
   f5networks.f5_modules.bigip_device_license:
+    license_key: "{{ license_node1 }}"
     state: "revoked"
-    provider: "{{provider}}"
+    provider: "{{ provider }}"
+  when: "'1' in inventory_hostname"
+  delegate_to: localhost
+
+- name: Revoke License BIG-IP Node 2
+  f5networks.f5_modules.bigip_device_license:
+    license_key: "{{ license_node2 }}"
+    state: "revoked"
+    provider: "{{ provider }}"
+  when: "'2' in inventory_hostname"
   delegate_to: localhost
