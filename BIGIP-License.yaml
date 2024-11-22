@@ -13,7 +13,7 @@
   connection: local
   gather_facts: true
   roles:
-    - roles/F5-Roles/BIG_IP/imparative/license
+    - roles/F5-Roles/BIG_IP/Imparative/license
 
 # End-Time
 - hosts: localhost
