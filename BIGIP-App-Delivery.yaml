@@ -1,0 +1,24 @@
+---
+# This is Test Code DO NOT USE in Prod
+
+#Deploy OVA
+- hosts: vCenter
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
+    - roles/vSphere-Roles/BIG_IP/create_dyn_group_f5_vms
+
+- hosts: dynamic_f5_vms
+  connection: local
+  gather_facts: true
+  roles:
+    # - roles/F5-Roles/BIG_IP/Imparative/license
+    - roles/F5-Roles/BIG_IP/as3_configure
+
+# End-Time
+- hosts: localhost
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
