@@ -5,28 +5,28 @@
 	"declaration": {
 		"class": "ADC",
 		"schemaVersion": "3.0.0",
-		"id": "{{tenant_info_var.name}}",
+		"id": "{{item.name}}",
 		"label": "Configure Web-Apps via AS3",
 		"remark": "HTTPS with Pool",
-		"{{ tenant_info_var.tenant_name }}": {
+		"{{ item.name }}": {
 			"class": "Tenant",
 			"WebApp-VIP": {
 				"class": "Application",
-				"{{ tenant_info_var.name }}": {
+				"{{ item.name }}": {
 					"class": "Service_HTTPS",
 					"virtualPort": 443, 
 					"virtualAddresses": [
-						"{{ tenant_info_var.ip }}"
+						"{{ item.ip }}"
 					],
 					"profileHTTP": "basic", 
-					"pool": "{{ tenant_info_var.name }}_pool",
+					"pool": "{{ item.name }}_pool",
           			"redirect80": true,
 					"serverTLS": {
               			"bigip": "/Common/clientssl"
           			},
           			"persistenceMethods": []
 				},
-				"{{ tenant_info_var.name }}_pool": {
+				"{{ item.name }}_pool": {
 					"class": "Pool",
           			"minimumMembersActive": 0,
           			"minimumMonitors": "all",
@@ -34,11 +34,11 @@
 						"http"
 					],
 					"members": [
-				   		{% for port in tenant_info_var.service_ports %}{ 
+				   		{% for port in item.service_ports %}{ 
 							"servicePort": {{port}},
 							"serverAddresses": [
 								{% set comma = joiner(",") %}
-								{% for mem in tenant_info_var.pool_members %}
+								{% for mem in item.pool_members %}
 								{{comma()}} "{{ mem }}"
 								{% endfor %}
 							]}{{ ", " if not loop.last else ""}}
