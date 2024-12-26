@@ -12,8 +12,8 @@
    loop_control:
      loop_var: ova_builds_var
 
-#  - name: Power ON VMs
-#    include_tasks: power_on.yml
-#    with_items: "{{ f5_ova_builds }}"
-#    loop_control:
-#      loop_var: ova_builds_var
+ - name: Power ON VMs
+   include_tasks: power_on.yml
+   with_items: "{{ f5_ova_builds }}"
+   loop_control:
+     loop_var: ova_builds_var
