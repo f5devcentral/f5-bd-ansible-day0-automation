@@ -8,7 +8,7 @@
 
 - name: Add Cloud-Init Customization (IP/GW/Passwords)
   include_tasks: cloud_init.yml
-  loop: "{{ range(1, ova_builds_var.build_count + 1) | map('int') | map('regex_replace', '^', '%03d') }}"
+  loop: "{{ range(1, ova_builds_var.build_count + 1) | map('format', '%.3d') }}"
   loop_control:
     loop_var: seq_item
   vars:
