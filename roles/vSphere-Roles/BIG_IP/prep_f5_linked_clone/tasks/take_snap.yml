@@ -10,7 +10,7 @@
       name: "{{vm_hostname}}{{ ova_builds_var.tmpl_name }}-TMPL"
       state: remove_all
     delegate_to: localhost
-    ignore_errors: yes
+    ignore_errors: true
 
   - name: Create a snapshot for Linked Clone Deployment if doesnt exist
     community.vmware.vmware_guest_snapshot:

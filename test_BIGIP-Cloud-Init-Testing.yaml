@@ -10,75 +10,75 @@
     - roles/vSphere-Roles/vSphere/create_resource_pool
     - roles/vSphere-Roles/BIG_IP/deploy_f5_ova
     - roles/vSphere-Roles/BIG_IP/prep_f5_linked_clone
-    - roles/vSphere-Roles/BIG_IP/clone_f5_vm
-    - roles/vSphere-Roles/vSphere/vmware_tools_wait
-    - roles/vSphere-Roles/BIG_IP/create_dyn_group_f5_vms
+#     - roles/vSphere-Roles/BIG_IP/clone_f5_vm_cloudinit
+#     - roles/vSphere-Roles/vSphere/vmware_tools_wait
+#     - roles/vSphere-Roles/BIG_IP/create_dyn_group_f5_vms
 
-- hosts: dynamic_f5_vms
-  connection: local
-  gather_facts: true
-  roles:
-    - roles/F5-Roles/BIG_IP/wait_for_bigip_startup
-    - roles/F5-Roles/BIG_IP/install_as3
-    - roles/F5-Roles/BIG_IP/install_do
-    - roles/F5-Roles/BIG_IP/cleanup_downloads
-    - roles/F5-Roles/BIG_IP/restart_services_check
-    - roles/F5-Roles/BIG_IP/do_configure
-    - roles/F5-Roles/BIG_IP/as3_configure
+# - hosts: dynamic_f5_vms
+#   connection: local
+#   gather_facts: true
+#   roles:
+#     - roles/F5-Roles/BIG_IP/wait_for_bigip_startup
+#     - roles/F5-Roles/BIG_IP/install_as3
+#     - roles/F5-Roles/BIG_IP/install_do
+#     - roles/F5-Roles/BIG_IP/cleanup_downloads
+#     - roles/F5-Roles/BIG_IP/restart_services_check
+#     - roles/F5-Roles/BIG_IP/do_configure
+#     - roles/F5-Roles/BIG_IP/as3_configure
 
-# End-Time
-- hosts: localhost
-  connection: local
-  gather_facts: true
-  roles:
-    - roles/General-Roles/date_time
+# # End-Time
+# - hosts: localhost
+#   connection: local
+#   gather_facts: true
+#   roles:
+#     - roles/General-Roles/date_time
 
 
 
----
+# ---
 
-#Deploy Next and CM Instance
-- hosts: vCenter
-  connection: local
-  gather_facts: true
-  roles:
-    - roles/General-Roles/date_time
-    - roles/General-Roles/pause_5_min
-    - roles/vSphere-Roles/vSphere/create_resource_pool
-# Deploy CM Instance and Power on/get Ready
-    - roles/vSphere-Roles/Next/cm_deploy_ova
-    # - roles/vSphere-Roles/Next/cm_take_snapshot
-    - roles/vSphere-Roles/Next/cm_generate_cloud_init
-    - roles/vSphere-Roles/Next/cm_apply_cloud_init
-    - roles/vSphere-Roles/Next/cm_power_on_vm
-# Deploy Next Instance While CM Is booting up - Save Time 
-    - roles/vSphere-Roles/Next/next_deploy_ova
-    # - roles/vSphere-Roles/Next/next_take_snapshot
-    - roles/vSphere-Roles/Next/next_generate_cloud_init
-    - roles/vSphere-Roles/Next/next_apply_cloud_init
-    - roles/vSphere-Roles/Next/next_power_on_vm
-# Configure CM Instance with Bootstrap and Admin Passwords 
-    - roles/F5-Roles/Next/cm_wait_online
-    - roles/F5-Roles/Next/cm_reset_admin_password
-    - roles/F5-Roles/Next/cm_bootstrap_30
-    - roles/vSphere-Roles/Next/cm_dyn_group_ova
+# #Deploy Next and CM Instance
+# - hosts: vCenter
+#   connection: local
+#   gather_facts: true
+#   roles:
+#     - roles/General-Roles/date_time
+#     - roles/General-Roles/pause_5_min
+#     - roles/vSphere-Roles/vSphere/create_resource_pool
+# # Deploy CM Instance and Power on/get Ready
+#     - roles/vSphere-Roles/Next/cm_deploy_ova
+#     # - roles/vSphere-Roles/Next/cm_take_snapshot
+#     - roles/vSphere-Roles/Next/cm_generate_cloud_init
+#     - roles/vSphere-Roles/Next/cm_apply_cloud_init
+#     - roles/vSphere-Roles/Next/cm_power_on_vm
+# # Deploy Next Instance While CM Is booting up - Save Time 
+#     - roles/vSphere-Roles/Next/next_deploy_ova
+#     # - roles/vSphere-Roles/Next/next_take_snapshot
+#     - roles/vSphere-Roles/Next/next_generate_cloud_init
+#     - roles/vSphere-Roles/Next/next_apply_cloud_init
+#     - roles/vSphere-Roles/Next/next_power_on_vm
+# # Configure CM Instance with Bootstrap and Admin Passwords 
+#     - roles/F5-Roles/Next/cm_wait_online
+#     - roles/F5-Roles/Next/cm_reset_admin_password
+#     - roles/F5-Roles/Next/cm_bootstrap_30
+#     - roles/vSphere-Roles/Next/cm_dyn_group_ova
 
-- name: BIG-IP Next Automation Join Next Instance to CM
-  hosts: next_cm_dynamic
-  connection: httpapi
-  gather_facts: true
-  vars:
-    ansible_user: "admin"
-    ansible_httpapi_password: '{{ cm_password }}'
-    ansible_httpapi_port: 443
-    ansible_httpapi_use_ssl: true
-    ansible_httpapi_validate_certs: false
-    ansible_network_os: f5networks.next.cm
-    as3_tenant_name: "HTTP-Application-1"
-    as3_tenant_name2: "HTTPS-Application-1"
-  roles:
-# Join Instance to CM
-    - roles/F5-Roles/Next/cm_next_instance_join
-    - roles/F5-Roles/Next/cm_app_delivery_http
-    - roles/F5-Roles/Next/cm_app_delivery_https
-    - roles/General-Roles/date_time
+# - name: BIG-IP Next Automation Join Next Instance to CM
+#   hosts: next_cm_dynamic
+#   connection: httpapi
+#   gather_facts: true
+#   vars:
+#     ansible_user: "admin"
+#     ansible_httpapi_password: '{{ cm_password }}'
+#     ansible_httpapi_port: 443
+#     ansible_httpapi_use_ssl: true
+#     ansible_httpapi_validate_certs: false
+#     ansible_network_os: f5networks.next.cm
+#     as3_tenant_name: "HTTP-Application-1"
+#     as3_tenant_name2: "HTTPS-Application-1"
+#   roles:
+# # Join Instance to CM
+#     - roles/F5-Roles/Next/cm_next_instance_join
+#     - roles/F5-Roles/Next/cm_app_delivery_http
+#     - roles/F5-Roles/Next/cm_app_delivery_https
+#     - roles/General-Roles/date_time
