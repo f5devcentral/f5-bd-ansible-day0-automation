@@ -1,4 +1,4 @@
-instance-id: "{{ vm_hostname }}{{ova_builds_var.tmpl_name}}-00{{seq_item}}"
+#instance-id: "{{ vm_hostname }}{{ova_builds_var.tmpl_name}}-00{{seq_item}}"
 local-hostname: "{{ vm_hostname }}{{ova_builds_var.tmpl_name}}-00{{seq_item}}"
 network:
   version: 2
