@@ -1,0 +1,17 @@
+#cloud-config
+users:
+  - name: dasaint
+    passwd: "{{ f5_pass | password_hash }}"
+    shell: /bin/bash
+    lock_passwd: false
+    groups: users, admin
+    sudo: ALL=(ALL) NOPASSWD:ALL
+chpasswd:
+  users: 
+  - name: root
+    password: "{{ f5_pass | password_hash }}"
+    type: hash
+  - name: admin
+    password: "{{ f5_pass | password_hash }}"
+    type: hash
+  expire: False
