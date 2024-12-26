@@ -5,7 +5,7 @@ network:
   ethernets:
     ens192:
       addresses: 
-        - "{{ip_subnet}}.{{ip_last_octet |int + item |int }}/{{ova_builds_var.mgmt_ip_subnet_prefix}}"
+        - "{{ip_subnet}}.{{ip_last_octet |int + item |int }}/{{ip_prefix}}"
       gateway4: "{{ ova_builds_var.mgmt_gw }}"
       dhcp6: false
       nameservers:

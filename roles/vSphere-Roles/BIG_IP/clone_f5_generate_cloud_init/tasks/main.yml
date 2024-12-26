@@ -1,19 +1,19 @@
 ---
 
  - name: Provision VM from Template 
-   include: clone_f5_vm.yml
-   with_items: "{{f5_ova_builds}}"
+   include_tasks: clone_f5_vm.yml
+   with_items: "{{ f5_ova_builds }}"
    loop_control:
      loop_var: ova_builds_var 
 
- - name: Add Guest Customization (IP/GW/Passwords) 
-   include: guest_cust.yml
-   with_items: "{{f5_ova_builds}}"
+ - name: Add Cloud-Init Customization (IP/GW/Passwords) 
+   include_tasks: guest_cust.yml
+   with_items: "{{ f5_ova_builds }}"
    loop_control:
      loop_var: ova_builds_var
 
  - name: Power ON VMs
-   include: power_on.yml
-   with_items: "{{f5_ova_builds}}"
+   include_tasks: power_on.yml
+   with_items: "{{ f5_ova_builds }}"
    loop_control:
      loop_var: ova_builds_var
