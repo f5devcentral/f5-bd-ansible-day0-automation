@@ -1,11 +1,11 @@
-instance-id: "{{ vm_hostname }}{{ova_builds_var.tmpl_name}}-{{item}}"
-local-hostname: "{{ vm_hostname }}{{ova_builds_var.tmpl_name}}-{{item}}"
+instance-id: "{{ vm_hostname }}{{ova_builds_var.tmpl_name}}-00{{seq_item}}"
+local-hostname: "{{ vm_hostname }}{{ova_builds_var.tmpl_name}}-00{{seq_item}}"
 network:
   version: 2
   ethernets:
     ens192:
       addresses: 
-        - "{{ip_subnet}}.{{ip_last_octet |int + item |int }}/{{ip_prefix}}"
+        - "{{ip_subnet}}.{{ip_last_octet |int + seq_item |int }}/{{ip_prefix}}"
       gateway4: "{{ ova_builds_var.mgmt_gw }}"
       dhcp6: false
       nameservers:
