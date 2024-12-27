@@ -16,4 +16,4 @@
     ovf: "{{ ova_builds_var.location }}"
     deployment_option: "{{ ova_builds_var.option }}" 
     wait_for_ip_address: true
-  delegate_to: localhost
+  delegate_to: bastion_ssh
