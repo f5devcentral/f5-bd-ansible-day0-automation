@@ -1,5 +1,5 @@
 ---
   
 - name: Pause 300 Seconds (5 Minutes)
-  pause:
+  ansible.builtin.pause:
     seconds: 300

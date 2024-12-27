@@ -2,18 +2,18 @@
  - name: Wait for BIG-IP to be ready
    f5networks.f5_modules.bigip_wait:
      delay: 5
-     provider: "{{provider}}"
+     provider: "{{ provider }}"
    delegate_to: localhost
 
  - name: Get Failover State - Module
-   bigip_command:
+   f5networks.f5_modules.bigip_command:
      commands: show sys failover
      provider: "{{ provider }}"
    register: f5_info
 
  - name: UnConfigure F5 with AS3 on Active Node
    ansible.builtin.uri:
-     url: "https://{{ ansible_host }}:{{f5_admin_port}}/mgmt/shared/appsvcs/declare/{{ tenant_info_var.tenant_name }}"
+     url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/appsvcs/declare/{{ tenant_info_var.tenant_name }}"
      method: DELETE
      status_code: 200
      timeout: 300

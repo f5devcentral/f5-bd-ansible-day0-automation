@@ -10,4 +10,4 @@
       name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
       state: powered-on
     delegate_to: localhost
-    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
+    with_sequence: "start=0 count={{ ova_builds_var.build_count }}" # format=%.3d"

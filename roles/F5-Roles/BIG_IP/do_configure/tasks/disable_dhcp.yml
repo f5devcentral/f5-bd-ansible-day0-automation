@@ -1,15 +1,16 @@
 ---
+
  - name: Wait for BIG-IP to be ready
    f5networks.f5_modules.bigip_wait:
-     provider: "{{provider}}"
+     provider: "{{ provider }}"
    delegate_to: localhost
 
  - name: Disable DHCP
    f5networks.f5_modules.bigip_sys_global:
      provider: "{{ provider }}"
-     mgmt_dhcp: no
+     mgmt_dhcp: false
 
  - name: Save Config Prior
    f5networks.f5_modules.bigip_config:
      provider: "{{ provider }}"
-     save: yes
+     save: true

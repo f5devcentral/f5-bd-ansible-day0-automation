@@ -1,6 +1,8 @@
 ---
+
  - name: Configure AS3 Per Tenant
-   include: as3_configure.yml
-   with_items: "{{tenant_info_ec2}}"
+   ansible.builtin.include_tasks: 
+     file: as3_configure.yml
+   with_items: "{{ tenant_info_ec2 }}"
    loop_control:
      loop_var: tenant_info_var

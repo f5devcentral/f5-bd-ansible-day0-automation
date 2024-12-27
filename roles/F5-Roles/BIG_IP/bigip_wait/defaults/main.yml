@@ -5,5 +5,5 @@ provider:
   user: "{{ f5_user }}"
   password: "{{ f5_pass }}"
   server_port: "{{ f5_admin_port }}"
-  validate_certs: "no"
-  no_f5_teem: yes
+  validate_certs: false
+  no_f5_teem: true

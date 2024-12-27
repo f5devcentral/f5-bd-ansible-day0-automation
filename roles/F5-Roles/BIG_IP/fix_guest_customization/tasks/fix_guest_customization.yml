@@ -17,7 +17,7 @@
   - name: Stop RestJavaD to delete appropriate files
     f5networks.f5_modules.bigip_command:
       commands: tmsh stop /sys service restjavad
-      provider: "{{provider}}"
+      provider: "{{ provider }}"
     delegate_to: localhost
     ignore_errors: true
 

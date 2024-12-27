@@ -1,17 +1,17 @@
 ---
-  - name: MGMT IP Block Split
-    set_fact: 
-      #internal_ip_subnet: "{{ova_builds_var.external_ip.split('.')[0]}}.{{ova_builds_var.external_ip.split('.')[1]}}.{{ova_builds_var.external_ip.split('.')[2]}}"
-      external_ip_subnet: "{{ova_builds_var.external_ip.split('.')[0]}}.{{ova_builds_var.external_ip.split('.')[1]}}.{{ova_builds_var.external_ip.split('.')[2]}}"
-      external_ip_last_octet: "{{ova_builds_var.external_ip.split('.')[3]}}"
 
+  - name: MGMT IP Block Split
+    ansible.builtin.set_fact: 
+      #internal_ip_subnet: "{{ ova_builds_var.external_ip.split('.')[0] }}.{{ ova_builds_var.external_ip.split('.')[1] }}.{{ ova_builds_var.external_ip.split('.')[2] }}"
+      external_ip_subnet: "{{ ova_builds_var.external_ip.split('.')[0] }}.{{ ova_builds_var.external_ip.split('.')[1] }}.{{ ova_builds_var.external_ip.split('.')[2] }}"
+      external_ip_last_octet: "{{ ova_builds_var.external_ip.split('.')[3] }}"
 
   - name: Manipulate vApp properties
     community.vmware.vmware_guest:
       hostname: "{{ vcenter_hostname }}"
       username: "{{ vcenter_username }}"
       password: "{{ vcenter_password }}"
-      validate_certs: no
+      validate_certs: false
       name: "{{ ova_builds_var.tmpl_name }}-{{ item }}"
       state: present
       vapp_properties:
@@ -55,5 +55,4 @@
           type: string
           value: "{{ token }}"
     delegate_to: localhost
-    with_sequence: "start=0 count={{ova_builds_var.build_count}}" # format=%.3d"
-
+    with_sequence: "start=0 count={{  ova_builds_var.build_count }}"

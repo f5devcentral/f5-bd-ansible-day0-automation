@@ -6,7 +6,6 @@
       path: "~/{{as3_rpm}}"
       state: absent
 
-
   - name: Remove file (delete file)
     ansible.builtin.file:
       path: "~/{{do_rpm}}"

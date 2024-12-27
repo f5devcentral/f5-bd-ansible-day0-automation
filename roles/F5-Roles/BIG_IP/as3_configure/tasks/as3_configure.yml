@@ -6,7 +6,7 @@
    delegate_to: localhost
 
  - name: Get Failover State - Module
-   bigip_command:
+   f5networks.f5_modules.bigip_command:
      commands: show sys failover
      provider: "{{ provider }}"
    register: f5_info

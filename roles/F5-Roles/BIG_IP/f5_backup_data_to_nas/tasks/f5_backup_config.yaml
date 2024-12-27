@@ -1,20 +1,20 @@
 ---
 
 - name: Get timestamp from the system
-  shell: "date +%Y-%m-%d%H-%M-%S"
+  ansible.builtin.shell: "date +%Y-%m-%d%H-%M-%S"
   register: tstamp
   delegate_to: localhost
 
 - name: Set variables
-  set_fact:
+  ansible.builtin.set_fact:
     cur_date: "{{ tstamp.stdout[0:10] }}"
     cur_time: "{{ tstamp.stdout[10:] }}"
 
 - name: Download a new UCS
   f5networks.f5_modules.bigip_ucs_fetch:
     async_timeout: 300
-    src: "{{inventory_hostname}}-{{cur_date}}-{{cur_time}}.ucs"
-    dest: "{{local_folder_location}}/{{inventory_hostname}}-{{cur_date}}-{{cur_time}}.ucs"
+    src: "{{ inventory_hostname }}-{{ cur_date }}-{{ cur_time }}.ucs"
+    dest: "{{ local_folder_location }}/{{ inventory_hostname }}-{{ cur_date }}-{{ cur_time }}.ucs"
     only_create_file: true #TEST
-    provider: "{{provider}}"
+    provider: "{{ provider }}"
   delegate_to: localhost

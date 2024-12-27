@@ -5,7 +5,7 @@
   f5networks.f5_modules.bigip_ucs:
     ucs: "{{local_folder_location}}/UseCase-00-backup.ucs"
     state: installed
-    no_license: yes
+    no_license: true
     provider: "{{provider}}"
   delegate_to: localhost
-  ignore_errors: yes
+  ignore_errors: false

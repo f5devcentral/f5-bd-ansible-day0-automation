@@ -1,8 +1,7 @@
 ---
-# tasks file for Destroy-Resource-Pool
 
   - name: Remove Resource Pool to vCenter
-    vmware_resource_pool:
+    community.vmware.vmware_resource_pool:
       hostname: "{{ vcenter_hostname }}"
       username: "{{ vcenter_username }}"
       password: "{{ vcenter_password }}"
@@ -12,5 +11,3 @@
       resource_pool: "{{resource_pool_name}}"
       state: absent
     delegate_to: localhost
-
-

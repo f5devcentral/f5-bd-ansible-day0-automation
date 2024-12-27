@@ -4,7 +4,7 @@
       hostname: "{{ vcenter_hostname }}"
       username: "{{ vcenter_username }}"
       password: "{{ vcenter_password }}"
-      validate_certs: False
-      name: "{{vm_hostname}}{{ ova_builds_var.tmpl_name }}-TMPL"
+      validate_certs: false
+      name: "{{ vm_hostname }}{{ ova_builds_var.tmpl_name }}-TMPL"
       state: shutdown-guest
       state_change_timeout: 300

@@ -18,7 +18,7 @@
 
 - name: Copy UCS to NFS
   ansible.builtin.copy:
-    src: "{{local_folder_location}}/{{inventory_hostname}}-{{cur_date}}-{{cur_time}}.ucs"
+    src: "{{ local_folder_location }}/{{ inventory_hostname }}-{{ cur_date }}-{{ cur_time }}.ucs"
     dest: "{{ smb_local_share }}"
     # owner: root
     # group: root 
