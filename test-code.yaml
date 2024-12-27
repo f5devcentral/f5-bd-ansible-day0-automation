@@ -1,0 +1,34 @@
+---
+#This Code is for 16.1 and above as the build contains a fix for guest customization to work correctly.
+
+#Deploy OVA
+- hosts: bastion
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
+    - roles/vSphere-Roles/vSphere/create_resource_pool
+    - roles/vSphere-Roles/BIG_IP/deploy_f5_ova
+    - roles/vSphere-Roles/BIG_IP/prep_f5_linked_clone
+    - roles/vSphere-Roles/BIG_IP/clone_f5_vm
+    - roles/vSphere-Roles/vSphere/vmware_tools_wait
+    - roles/vSphere-Roles/BIG_IP/create_dyn_group_f5_vms
+
+- hosts: dynamic_f5_vms
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/F5-Roles/BIG_IP/wait_for_bigip_startup
+    - roles/F5-Roles/BIG_IP/install_as3
+    - roles/F5-Roles/BIG_IP/install_do
+    - roles/F5-Roles/BIG_IP/cleanup_downloads
+    - roles/F5-Roles/BIG_IP/restart_services_check
+    - roles/F5-Roles/BIG_IP/do_configure
+    - roles/F5-Roles/BIG_IP/as3_configure
+
+# End-Time
+- hosts: localhost
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
