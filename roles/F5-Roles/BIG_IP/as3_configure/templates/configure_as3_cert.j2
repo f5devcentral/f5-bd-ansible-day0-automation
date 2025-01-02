@@ -51,8 +51,12 @@
 				"{{ item.name }}_crt": {
 					"class": "Certificate",
 					"remark": "in practice we recommend using a passphrase",
-						"certificate": "{{ device_cert_base64 }}",
-						"privateKey": "{{ device_key_base64 }}"
+						"certificate": {
+							"base64": "{{ device_cert_base64 }}"
+						},
+						"privateKey": {
+							"base64": "{{ device_key_base64 }}"
+						}
 				}
 			}
 		}
