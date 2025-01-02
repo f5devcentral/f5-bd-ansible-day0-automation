@@ -3,6 +3,7 @@
 
 #Deploy OVA
 - hosts: bastion
+  connection: local
   gather_facts: true
   roles:
     - roles/General-Roles/date_time
