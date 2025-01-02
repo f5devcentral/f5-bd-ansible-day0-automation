@@ -6,7 +6,7 @@
      provider: "{{ provider }}"
    delegate_to: localhost
 
- - name: Configure F5 via DO
+ - name: Configure F5 via DO with Device Certs
    ansible.builtin.uri:
      url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/declare"
      method: POST
@@ -18,6 +18,27 @@
      user: "{{ f5_user }}"
      password: "{{ f5_pass }}"
      validate_certs: false
+   when: 
+   - device_cert_base64 is defined
+   - device_key_base64 is defined
+   delegate_to: localhost
+   register: do_result
+
+ - name: Configure F5 via DO
+   ansible.builtin.uri:
+     url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/declare"
+     method: POST
+     body: "{{ lookup('template','do_configure.j2', split_lines=False) }}"
+     status_code: 202
+     timeout: 300
+     body_format: json
+     force_basic_auth: true
+     user: "{{ f5_user }}"
+     password: "{{ f5_pass }}"
+     validate_certs: false
+   when: 
+   - device_cert_base64 is undefined
+   - device_key_base64 is undefined
    delegate_to: localhost
    register: do_result
 

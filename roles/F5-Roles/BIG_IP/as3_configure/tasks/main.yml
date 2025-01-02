@@ -12,7 +12,7 @@
      provider: "{{ provider }}"
    register: f5_info
 
- - name: Configure F5 with AS3 on Active Node
+ - name: Configure F5 with AS3 on Active Node W/Custom Cert
    ansible.builtin.uri:
      url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/appsvcs/declare"
      method: POST
@@ -26,6 +26,29 @@
      validate_certs: false
    delegate_to: localhost
    when: 
+   - app_cert_base64 is defined
+   - app_key_base64 is defined
+   - f5_info.stdout[0].split()[1] |lower == "active"
+   - item.tenant_name in inventory_hostname
+   register: as3_result
+   with_items: "{{ tenant_info }}"
+
+ - name: Configure F5 with AS3 on Active Node W/Default Cert 
+   ansible.builtin.uri:
+     url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/appsvcs/declare"
+     method: POST
+     body: "{{ lookup('template','configure_as3.j2', split_lines=False) }}"
+     status_code: 200, 202
+     timeout: 300
+     body_format: json
+     force_basic_auth: true
+     user: "{{ f5_user }}"
+     password: "{{ f5_pass }}"
+     validate_certs: false
+   delegate_to: localhost
+   when: 
+   - app_cert_base64 is undefined
+   - app_key_base64 is undefined
    - f5_info.stdout[0].split()[1] |lower == "active"
    - item.tenant_name in inventory_hostname
    register: as3_result
