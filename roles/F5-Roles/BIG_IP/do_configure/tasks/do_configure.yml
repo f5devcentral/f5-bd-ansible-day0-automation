@@ -22,9 +22,28 @@
    - device_cert_base64 is defined
    - device_key_base64 is defined
    delegate_to: localhost
-   register: do_result
+   register: do_result_cert
 
- - name: Configure F5 via DO
+ - name: Wait for DO Task to complete (Certs)
+   ansible.builtin.uri:
+     url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/task/{{ do_result_cert.json.id }}"
+     method: GET
+     return_content: true
+     status_code: 200
+     force_basic_auth: true
+     user: "{{ f5_user }}"
+     password: "{{ f5_pass }}"
+     validate_certs: false
+   register: atc_DO_status
+   until: atc_DO_status is success
+   retries: 30
+   delay: 30
+   when: 
+   - device_cert_base64 is defined
+   - device_key_base64 is defined
+   delegate_to: localhost
+
+ - name: Configure F5 via DO (Default Certs)
    ansible.builtin.uri:
      url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/declare"
      method: POST
@@ -42,7 +61,7 @@
    delegate_to: localhost
    register: do_result
 
- - name: Wait for DO Task to complete
+ - name: Wait for DO Task to complete (Default Certs)
    ansible.builtin.uri:
      url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/task/{{ do_result.json.id }}"
      method: GET
@@ -56,4 +75,7 @@
    until: atc_DO_status is success
    retries: 30
    delay: 30
+   when: 
+   - device_cert_base64 is undefined
+   - device_key_base64 is undefined
    delegate_to: localhost
