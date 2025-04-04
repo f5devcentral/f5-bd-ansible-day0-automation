@@ -6,7 +6,26 @@
      provider: "{{ provider }}"
    delegate_to: localhost
 
- - name: Configure F5 via DO with Device Certs
+ - name: Configure F5 via DO with Device Certs Tagged Networks
+   ansible.builtin.uri:
+     url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/declare"
+     method: POST
+     body: "{{ lookup('template','do_configure_deviceCert_tagged.j2', split_lines=False) }}"
+     status_code: 202
+     timeout: 300
+     body_format: json
+     force_basic_auth: true
+     user: "{{ f5_user }}"
+     password: "{{ f5_pass }}"
+     validate_certs: false
+   when: 
+   - device_cert_base64 is defined
+   - device_key_base64 is defined
+   - Tagged_Networks is defined
+   delegate_to: localhost
+   register: do_result
+
+ - name: Configure F5 via DO with Device Certs Untagged Networks
    ansible.builtin.uri:
      url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/declare"
      method: POST
@@ -21,29 +40,30 @@
    when: 
    - device_cert_base64 is defined
    - device_key_base64 is defined
+   - Tagged_Networks is undefined
    delegate_to: localhost
-   register: do_result_cert
+   register: do_result
 
- - name: Wait for DO Task to complete (Certs)
+ - name: Configure F5 via DO (Default Certs) Tagged Networks
    ansible.builtin.uri:
-     url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/task/{{ do_result_cert.json.id }}"
-     method: GET
-     return_content: true
-     status_code: 200
+     url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/declare"
+     method: POST
+     body: "{{ lookup('template','do_configure_tagged.j2', split_lines=False) }}"
+     status_code: 202
+     timeout: 300
+     body_format: json
      force_basic_auth: true
      user: "{{ f5_user }}"
      password: "{{ f5_pass }}"
      validate_certs: false
-   register: atc_DO_status
-   until: atc_DO_status is success
-   retries: 30
-   delay: 30
    when: 
-   - device_cert_base64 is defined
-   - device_key_base64 is defined
+   - device_cert_base64 is undefined
+   - device_key_base64 is undefined
+   - Tagged_Networks is defined
    delegate_to: localhost
+   register: do_result
 
- - name: Configure F5 via DO (Default Certs)
+ - name: Configure F5 via DO (Default Certs) Untagged Networks
    ansible.builtin.uri:
      url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/declare"
      method: POST
@@ -58,10 +78,11 @@
    when: 
    - device_cert_base64 is undefined
    - device_key_base64 is undefined
+   - Tagged_Networks is undefined
    delegate_to: localhost
    register: do_result
 
- - name: Wait for DO Task to complete (Default Certs)
+ - name: Wait for DO Task to complete
    ansible.builtin.uri:
      url: "https://{{ ansible_host }}:{{ f5_admin_port }}/mgmt/shared/declarative-onboarding/task/{{ do_result.json.id }}"
      method: GET
@@ -75,7 +96,4 @@
    until: atc_DO_status is success
    retries: 30
    delay: 30
-   when: 
-   - device_cert_base64 is undefined
-   - device_key_base64 is undefined
    delegate_to: localhost
