@@ -1,0 +1,29 @@
+---
+# This is Test Code DO NOT USE in Prod
+
+# Deploy OVA
+- name: Date/Time Start
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
+
+- name: Deploy Apps
+  hosts: ha_pair_source
+  connection: local
+  gather_facts: true
+  roles:
+    # - roles/F5-Roles/BIG_IP/Imparative/license
+    - roles/F5-Roles/BIG_IP/install_as3
+    - roles/F5-Roles/BIG_IP/cleanup_downloads
+    - roles/F5-Roles/BIG_IP/restart_services_check
+    - roles/F5-Roles/BIG_IP/as3_configure
+
+# End-Time
+- name: Date/Time End
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  roles:
+    - roles/General-Roles/date_time
